@@ -5,42 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#FFFF00"
+    android:background="#ffffff"
     >
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textview1"
-            android:textSize="50sp"
-            android:text="KPU_T"
-            android:layout_centerInParent="true"
-            />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/taxi"
-            android:layout_marginLeft="10dp"
-            />
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_centerInParent="true"
+       >
 
-    </LinearLayout>
+       <ImageView
+           android:layout_width="230dp"
+           android:layout_height="230dp"
+           android:src="@drawable/taxi_logo1"
+           android:id="@+id/imageview1"
+           android:layout_centerInParent="true"
+            android:background="@drawable/round_shape"
+           />
 
-
-
-
-
-
+       <TextView
+           android:layout_marginTop="110dp"
+           android:layout_width="wrap_content"
+           android:layout_below="@+id/imageview1"
+           android:layout_height="wrap_content"
+           android:text="KPU Taxi"
+           android:fontFamily="@font/maple_bold"
+           android:layout_centerHorizontal="true"
+           android:textColor="#ffffa500"
+           android:id="@+id/textview1"
+           android:textSize="80sp"
+           />
 
 
+
+   </RelativeLayout>
 
 
 

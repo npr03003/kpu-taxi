@@ -1,19 +1,14 @@
 package kr.ac.kpu.kpu_t
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TabHost
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_taxi_main.*
+import kotlin.system.exitProcess
 
 
 class TaxiMain : AppCompatActivity() {
+    var backKeyPressedTime : Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,5 +23,21 @@ class TaxiMain : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onBackPressed() {
+        //1번째 백버튼 클릭
+        val auto = intent.getBooleanExtra("auto",false)
+        if(!auto){
+            finish()
+        } else if(System.currentTimeMillis()>backKeyPressedTime+2000){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "한번 더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+        }
+        //2번째 백버튼 클릭 (종료)
+        else{
+            finishAffinity()
+            exitProcess(0)
+        }
     }
 }

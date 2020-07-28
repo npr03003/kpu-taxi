@@ -31,29 +31,20 @@
             android:layout_height="wrap_content"
             android:hint="email"
             android:inputType="textEmailAddress"
-            android:id="@+id/Sign_edit_email"
+            android:id="@+id/find_edit_email_forpassword"
             android:textSize="20sp"
             />
 
-        <EditText
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="password"
-            android:id="@+id/Sign_edit_password"
-            android:textSize="20sp"
-            />
 
         <Button
             android:background="#ffffa500"
             android:layout_marginTop="20dp"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_finish"
+            android:id="@+id/btn_sendEmail"
             android:textSize="30sp"
             android:textColor="#ffffff"
-            android:text="가입완료"
+            android:text="보내기"
             android:layout_gravity="center"
             />
 
@@ -65,29 +56,6 @@
             android:visibility="gone"
             />
 
-        <Button
-            android:background="#ffffa500"
-            android:layout_marginTop="20dp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_login"
-            android:textSize="30sp"
-            android:textColor="#ffffff"
-            android:text="Login"
-            android:layout_gravity="center"
-            />
-
-        <Button
-            android:background="#ffffa500"
-            android:layout_marginTop="20dp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_signout"
-            android:textSize="30sp"
-            android:textColor="#ffffff"
-            android:text="로그아웃"
-            android:layout_gravity="center"
-            />
 
 
     </LinearLayout>

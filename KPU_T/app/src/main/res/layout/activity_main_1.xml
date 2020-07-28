@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Main_Activity1"
-    android:background="#ffffa500"
+    android:background="#ffffff"
     >
 <RelativeLayout
     android:layout_width="match_parent"
@@ -15,14 +15,18 @@
     >
 
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/taxi_logo1"
-        android:layout_centerInParent="true"
-        android:id="@+id/btn_taxi"
-
+    <TextView
+        android:layout_marginTop="110dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KPU Taxi"
+        android:fontFamily="@font/maple_bold"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffa500"
+        android:id="@+id/textview1"
+        android:textSize="80sp"
         />
+
 
 
     <ProgressBar
@@ -35,18 +39,22 @@
 
 
     <EditText
+        android:layout_marginTop="30dp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="Email"
         android:gravity="left"
+        android:fontFamily="@font/maple_bold"
         android:id="@+id/Edit_email"
         android:inputType="textEmailAddress"
         android:textSize="20sp"
-        android:layout_below="@+id/btn_taxi"
+        android:layout_below="@+id/textview1"
         android:layout_centerHorizontal="true"
         />
 
     <EditText
+
+        android:fontFamily="@font/maple_bold"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="PASSWORD"
@@ -64,12 +72,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Edit_PS"
-        android:text="비밀번호가 생각이 나지 않으세요?"
+        android:text="비밀번호 찾기"
         android:id="@+id/textview_btn_idpassword"
         android:textColor="#0000ff"
         android:layout_centerHorizontal="true"
         android:textSize="20sp"
         />
+
+    <CheckBox
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textview_btn_idpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/autoLogin"
+        android:text="자동 로그인"
+        android:textSize="20sp"
+        android:layout_marginTop="30dp"/>
 
     <Button
 
@@ -78,20 +96,21 @@
         android:id="@+id/btn_Login"
         android:gravity="center"
         android:text="LoGin"
-
+        android:background="#ffffa500"
+        android:fontFamily="@font/maple_bold"
         android:textSize="20sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         />
 
     <Button
-
+        android:background="#ffffa500"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/btn_Sign"
         android:gravity="center"
         android:text="회원가입"
-
+        android:fontFamily="@font/maple_bold"
         android:textSize="20sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
