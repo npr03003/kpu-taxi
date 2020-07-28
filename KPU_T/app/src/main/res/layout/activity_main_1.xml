@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main_Activity1"
+    android:background="#ffffa500"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:padding="30dp"
+    >
+
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/taxi_logo1"
+        android:layout_centerInParent="true"
+        android:id="@+id/btn_taxi"
+
+        />
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbar"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
+
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:gravity="left"
+        android:id="@+id/Edit_email"
+        android:inputType="textEmailAddress"
+        android:textSize="20sp"
+        android:layout_below="@+id/btn_taxi"
+        android:layout_centerHorizontal="true"
+        />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="PASSWORD"
+        android:gravity="left"
+        android:inputType="textPassword"
+        android:id="@+id/Edit_PS"
+        android:textSize="20sp"
+        android:layout_below="@+id/Edit_email"
+        android:layout_centerHorizontal="true"
+        />
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Edit_PS"
+        android:text="비밀번호가 생각이 나지 않으세요?"
+        android:id="@+id/textview_btn_idpassword"
+        android:textColor="#0000ff"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        />
+
+    <Button
+
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_Login"
+        android:gravity="center"
+        android:text="LoGin"
+
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        />
+
+    <Button
+
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_Sign"
+        android:gravity="center"
+        android:text="회원가입"
+
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+
+</RelativeLayout>
+
+
+
+</RelativeLayout>
