@@ -21,7 +21,7 @@ class Mypage : Fragment() {
     }
 
 
-    //동윤ㅁㅁ
+
 
 
 }
