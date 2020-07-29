@@ -1,14 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Mypage">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/ProfileImage"
+            android:layout_width="118dp"
+            android:layout_height="117dp"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/taxi_logo1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/Nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="닉네임 : "
+            android:textColor="#140308"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ProfileImage" />
+
+        <TextView
+            android:id="@+id/Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.452"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Nickname" />
+
+        <Button
+            android:id="@+id/profileChangebtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="프로필 수정"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ProfileImage" />
+        <Button
+            android:id="@+id/notice_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@color/common_google_signin_btn_text_dark_pressed"
+            android:text="공지사항"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileChangebtn" />
+
+        <Button
+            android:id="@+id/FAQ_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_pressed"
+            android:text="FAQ"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notice_btn" />
+        <Button
+            android:id="@+id/how_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_pressed"
+            android:text="이용방법"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/FAQ_btn" />
+
+        <Button
+            android:id="@+id/quest_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_pressed"
+            android:text="문의하기"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/how_btn" />
+
+        <Button
+            android:id="@+id/settings_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_pressed"
+            android:text="설정"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quest_btn" />
+
+
+        <Button
+            android:id="@+id/signout_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_pressed"
+            android:text="로그아웃"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_btn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </FrameLayout>

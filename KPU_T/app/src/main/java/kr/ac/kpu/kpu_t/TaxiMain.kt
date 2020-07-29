@@ -1,5 +1,6 @@
 package kr.ac.kpu.kpu_t
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,16 +14,13 @@ class TaxiMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_taxi_main)
+        setTitle("KPU-Taxi")
 
         val fragmentAdapter=PagerAdapter(supportFragmentManager)
         viewpager_main.adapter=fragmentAdapter
 
 
         tabs_main.setupWithViewPager(viewpager_main)
-
-
-
-
     }
 
     override fun onBackPressed() {

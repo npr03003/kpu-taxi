@@ -19,6 +19,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+
     }
     buildTypes {
         release {
@@ -30,6 +33,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.anko:anko-commons:0.10.5"
+    implementation 'io.realm:android-adapters:2.1.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
