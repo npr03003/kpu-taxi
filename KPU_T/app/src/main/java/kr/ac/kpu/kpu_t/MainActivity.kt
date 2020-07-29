@@ -2,6 +2,7 @@ package kr.ac.kpu.kpu_t
 
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import org.jetbrains.anko.startActivity
 
@@ -12,9 +13,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
-
+        var actionBar : ActionBar?
+        actionBar = supportActionBar
+        actionBar?.hide()
 
         val handler = Handler()
         handler.postDelayed({
