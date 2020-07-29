@@ -10,20 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".FindpwActivity"></activity>
-        <activity android:name=".findpasswordAndID" />
-        <activity android:name=".CarJoint" />
         <activity android:name=".Chatting" />
-        <activity android:name=".MyMenu" />
         <activity android:name=".TaxiMain" />
         <activity android:name=".SignInActivity" />
-        <activity android:name=".SignIN_Activity" />
         <activity android:name=".Main_Activity1" />
+        <activity android:name=".ProfileChange"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 
