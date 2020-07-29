@@ -19,9 +19,4 @@ class Mypage : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mypage, container, false)
     }
-
-
-    //동윤ㅁㅁ
-
-
 }
