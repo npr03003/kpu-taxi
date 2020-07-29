@@ -39,7 +39,9 @@ class Mypage : Fragment() {
         finish()
     }
 
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+    }
 
 }

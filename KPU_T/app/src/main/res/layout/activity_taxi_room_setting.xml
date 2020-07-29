@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvStartTitle"
+        android:id="@+id/tvStart"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -46,11 +46,11 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@id/tvStartTitle"
+        app:layout_constraintStart_toEndOf="@id/tvStart"
         app:layout_constraintTop_toBottomOf="@id/edRoomName"/>
 
     <TextView
-        android:id="@+id/tvEndTitle"
+        android:id="@+id/tvEnd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -59,15 +59,56 @@
         android:padding="6dp"
         android:textSize="25dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvStartTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvStart" />
 
     <Spinner
         android:id="@+id/spEnd"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@id/tvEndTitle"
+        app:layout_constraintStart_toEndOf="@id/tvEnd"
         app:layout_constraintTop_toBottomOf="@id/spStart"/>
+
+    <TextView
+        android:id="@+id/tvNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:text="모집 인원 : "
+        android:padding="6dp"
+        android:textSize="23dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEnd" />
+
+    <RadioGroup
+        android:id="@+id/rgNumber"
+        app:layout_constraintStart_toEndOf="@id/tvNumber"
+        app:layout_constraintTop_toBottomOf="@id/spEnd"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/number2"
+            android:layout_marginLeft="10dp"
+            android:text="2명"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/number3"
+            android:layout_marginLeft="10dp"
+            android:text="3명"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/number4"
+            android:text="4명"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"

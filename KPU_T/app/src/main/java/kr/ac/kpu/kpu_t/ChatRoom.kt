@@ -6,7 +6,7 @@ open class ChatRoom(
     @PrimaryKey var id: Long = 0,
     var title: String = "",
     var start: String = "",
-    var end: String = ""
-
+    var end: String = "",
+    var number: Int = 0
 ) : RealmObject() {
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RadioGroup
 import android.widget.Toast
 import io.realm.Realm
 import io.realm.kotlin.createObject
@@ -60,7 +61,13 @@ class TaxiRoomSetting : AppCompatActivity() {
         realm.close()
     }
     private fun insertMode(){
-        floatingActionButton.setOnClickListener { insertTaxiSetting() }
+        floatingActionButton.setOnClickListener {
+            if(number2.isChecked==false&&number3.isChecked==false&&number4.isChecked==false){
+                alert ( "동승 인원을 선택해주세요." ){
+                    yesButton {  }
+                }.show()
+            }
+            else{ insertTaxiSetting() }}
     }
 
 
@@ -70,6 +77,15 @@ class TaxiRoomSetting : AppCompatActivity() {
         setting.title = edRoomName.text.toString()
         setting.start = start
         setting.end = end
+        if(number4.isChecked){
+            setting.number = 4
+        }
+        else if(number3.isChecked){
+            setting.number = 3
+        }
+        else if(number2.isChecked){
+            setting.number = 2
+        }
         realm.commitTransaction()
 
         alert("채팅방이 개설되었습니다."){
