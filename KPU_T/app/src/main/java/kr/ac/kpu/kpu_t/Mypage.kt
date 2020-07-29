@@ -5,7 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+<<<<<<< HEAD
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_mypage.*
+=======
 import androidx.fragment.app.Fragment
+>>>>>>> 4b81aa18945b0b6e58a822f824fd392a1cbc2d47
 
 /**
  * A simple [Fragment] subclass.
@@ -19,4 +25,29 @@ class Mypage : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mypage, container, false)
     }
+<<<<<<< HEAD
+=======
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        signout_btn.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            finish()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+
+    }
+
+    fun finish(){
+        finish()
+    }
+
+    //동윤ㅁㅁ
+
+
+>>>>>>> 297ff64ead4ca007aaf54e297be83afb22ca873d
 }
