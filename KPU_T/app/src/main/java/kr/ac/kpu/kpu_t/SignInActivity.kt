@@ -3,6 +3,7 @@ package kr.ac.kpu.kpu_t
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -20,6 +21,9 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+        var actionBar : ActionBar?
+        actionBar = supportActionBar
+        actionBar?.hide()
 
         firebaseAuth = FirebaseAuth.getInstance()
 

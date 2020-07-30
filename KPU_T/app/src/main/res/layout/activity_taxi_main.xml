@@ -7,6 +7,15 @@
     tools:context=".TaxiMain"
     android:orientation="vertical">
 
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:id="@+id/viewpager_main"
+        android:layout_weight="9"
+
+        />
+
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs_main"
         android:layout_width="match_parent"
@@ -18,13 +27,6 @@
         />
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:id="@+id/viewpager_main"
-        android:layout_weight="9"
-
-        />
 
 
 

@@ -4,7 +4,7 @@ package kr.ac.kpu.kpu_t
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.fragment_mypage.*
 import org.jetbrains.anko.startActivity
+import kotlinx.android.synthetic.main.fragment_mypage.*
+import androidx.fragment.app.Fragment
 
 /**
  * A simple [Fragment] subclass.
@@ -31,16 +33,14 @@ class Mypage : Fragment() {
         return inflater.inflate(R.layout.fragment_mypage, container, false)
     }
 
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
-            // Name, email address, and profile photo Url
-            val name = user.displayName
-            val email = user.email
+            user?.let {
+                // Name, email address, and profile photo Url
+                val name = user.displayName
+                val email = user.email
             val photoUrl = user.photoUrl
 
             // Check if user's email is verified
