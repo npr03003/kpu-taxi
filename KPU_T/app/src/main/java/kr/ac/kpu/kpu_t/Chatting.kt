@@ -28,11 +28,15 @@ class Chatting : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val intent = Intent(getActivity(), TaxiRoomSetting::class.java)
         val realmResult = realm.where<ChatRoom>().findAll()
         val adapter = TaxiRoomAdapter(realmResult)
         listView.adapter = adapter
+
         realmResult.addChangeListener { _ -> adapter.notifyDataSetChanged()}
+        realmResult.addChangeListener { _ -> adapter.notifyDataSetChanged() }
+        val intent = Intent(getActivity(), TaxiRoomSetting::class.java)
         plusFab.setOnClickListener { startActivity(intent) }
     }
+
+
 }
