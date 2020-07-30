@@ -1,7 +1,6 @@
 package kr.ac.kpu.kpu_t
 
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_mypage.*
-<<<<<<< HEAD
 
-=======
-import androidx.fragment.app.Fragment
->>>>>>> e536ed7fb336ed20ee5bd1dbb6639aeead251c08
 
 /**
  * A simple [Fragment] subclass.
@@ -41,27 +36,14 @@ class Mypage : Fragment() {
         }
     }
 
-<<<<<<< HEAD
+
     override fun onDestroyView() {
         super.onDestroyView()
-        Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
-=======
->>>>>>> e536ed7fb336ed20ee5bd1dbb6639aeead251c08
     fun finish(){
         finish()
     }
-
-<<<<<<< HEAD
-
-
-
-=======
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-    }
->>>>>>> e536ed7fb336ed20ee5bd1dbb6639aeead251c08
 
 }
