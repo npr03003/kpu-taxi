@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_chatting.*
  * A simple [Fragment] subclass.
  */
 class Chatting : Fragment() {
+
     val realm = Realm.getDefaultInstance()
 
     override fun onCreateView(
