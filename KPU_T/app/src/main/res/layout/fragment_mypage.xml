@@ -16,8 +16,8 @@
             android:id="@+id/ProfileImage"
             android:layout_width="118dp"
             android:layout_height="117dp"
-            android:layout_marginStart="33dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:src="@drawable/taxi_logo1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,8 @@
             android:textColor="#140308"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/Email"
             app:layout_constraintTop_toTopOf="@+id/ProfileImage" />
 
         <TextView

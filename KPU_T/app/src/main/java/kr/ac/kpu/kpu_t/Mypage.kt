@@ -2,10 +2,7 @@ package kr.ac.kpu.kpu_t
 
 
 import android.content.Context
-<<<<<<< HEAD
 import android.content.Intent
-=======
->>>>>>> 790b04f9d8349e25d6099dab78315a9690ca2919
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
@@ -78,16 +75,6 @@ class Mypage : Fragment() {
         user?.let {
             // Name, email address, and profile photo Url
             val name = user.displayName
-            val email = user.email
-            val photoUrl = user.photoUrl
-
-            // Check if user's email is verified
-            val emailVerified = user.isEmailVerified
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getToken() instead.
-            val uid = user.uid
             Nickname.setText("닉네임 : "+name)
         }
         super.onResume()
