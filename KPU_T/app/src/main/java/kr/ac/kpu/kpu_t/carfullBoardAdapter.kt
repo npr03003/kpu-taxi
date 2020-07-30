@@ -11,23 +11,23 @@ class carfullBoardAdapter(realmResult: OrderedRealmCollection<carfullBoard>) :
     RealmBaseAdapter<carfullBoard>(realmResult) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
-        val vh: BoardView
+        val bh: BoardView
         val view: View
         if (convertView == null) {
             view = LayoutInflater.from(parent?.context)
-                .inflate(R.layout.item_room, parent, false)
-            vh = BoardView(view)
-            view.tag = vh
+                .inflate(R.layout.item_board, parent, false)
+            bh = BoardView(view)
+            view.tag = bh
         }
         else{
             view = convertView
-            vh = view.tag as BoardView
+            bh = view.tag as BoardView
         }
 
         if(adapterData != null){
             val item = adapterData!![position]
-            vh.titleTextView.text = item.cftitle
-            vh.pathTextView.text = "경로 : "+item.cfstart+" -> "+item.cfend
+            bh.titleTV.text = item.cftitle
+            bh.pathTV.text = "경로 : "+item.cfstart+" -> "+item.cfend
         }
 
         return view
@@ -41,6 +41,6 @@ class carfullBoardAdapter(realmResult: OrderedRealmCollection<carfullBoard>) :
 }
 
 class BoardView(view: View){
-    val titleTextView: TextView = view.findViewById(R.id.text1)
-    val pathTextView: TextView = view.findViewById(R.id.text2)
+    val titleTV: TextView = view.findViewById(R.id.boardTitle)
+    val pathTV: TextView = view.findViewById(R.id.boardroute)
 }

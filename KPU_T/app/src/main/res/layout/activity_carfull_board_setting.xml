@@ -5,70 +5,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/tvRoomTitle"
+        android:id="@+id/tvBoardTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="30dp"
-        android:text="방 제목 : "
+        android:text="게시판 제목 : "
         android:padding="6dp"
-        android:textSize="25dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/cfRoomName"
-        android:layout_width="280dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="26dp"
         android:layout_marginEnd="16dp"
         android:hint="게시판 제목을 입력하세요"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/tvRoomTitle"
+        app:layout_constraintStart_toEndOf="@+id/tvBoardTitle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvStartTitle"
+        android:id="@+id/startTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:text="출발지 : "
         android:padding="6dp"
-        android:textSize="25dp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRoomTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvBoardTitle" />
 
     <EditText
         android:id="@+id/startET"
-        android:layout_width="280dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
         android:hint="출발지를 입력하세요"
-        app:layout_constraintStart_toEndOf="@id/tvStartTitle"
-        app:layout_constraintTop_toBottomOf="@id/cfRoomName"/>
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/startTV"
+        app:layout_constraintTop_toBottomOf="@id/cfRoomName" />
 
     <TextView
-        android:id="@+id/tvEndTitle"
+        android:id="@+id/endTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:text="도착지 : "
+        android:layout_marginTop="24dp"
         android:padding="6dp"
-        android:textSize="25dp"
+        android:text="도착지 : "
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvStartTitle" />
+        app:layout_constraintTop_toBottomOf="@id/startTV" />
 
     <EditText
         android:id="@+id/endET"
-        android:hint="도착지를 입력하세요"
-        android:layout_width="280dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@id/tvEndTitle"
-        app:layout_constraintTop_toBottomOf="@id/startET"/>
+        android:layout_marginEnd="16dp"
+        android:hint="도착지를 입력하세요"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/endTV"
+        app:layout_constraintTop_toBottomOf="@id/startET" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/finishfab"
