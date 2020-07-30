@@ -2,7 +2,10 @@ package kr.ac.kpu.kpu_t
 
 
 import android.content.Context
+<<<<<<< HEAD
 import android.content.Intent
+=======
+>>>>>>> 790b04f9d8349e25d6099dab78315a9690ca2919
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
@@ -92,6 +95,11 @@ class Mypage : Fragment() {
 
     fun finish(){
         finish()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
 }
