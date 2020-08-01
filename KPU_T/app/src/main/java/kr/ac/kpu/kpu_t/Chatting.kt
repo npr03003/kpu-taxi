@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_chatting.*
  * A simple [Fragment] subclass.
  */
 class Chatting : Fragment() {
-
     val realm = Realm.getDefaultInstance()
 
     override fun onCreateView(
@@ -32,12 +31,9 @@ class Chatting : Fragment() {
         val realmResult = realm.where<ChatRoom>().findAll()
         val adapter = TaxiRoomAdapter(realmResult)
         listView.adapter = adapter
-
-        realmResult.addChangeListener { _ -> adapter.notifyDataSetChanged()}
         realmResult.addChangeListener { _ -> adapter.notifyDataSetChanged() }
+
         val intent = Intent(getActivity(), TaxiRoomSetting::class.java)
         plusFab.setOnClickListener { startActivity(intent) }
     }
-
-
 }
