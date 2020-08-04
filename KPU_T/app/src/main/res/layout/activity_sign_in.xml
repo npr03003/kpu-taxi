@@ -64,29 +64,7 @@
             android:visibility="gone"
             />
 
-        <Button
-            android:background="#ffffa500"
-            android:layout_marginTop="20dp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_login"
-            android:textSize="30sp"
-            android:textColor="#ffffff"
-            android:text="Login"
-            android:layout_gravity="center"
-            />
 
-        <Button
-            android:background="#ffffa500"
-            android:layout_marginTop="20dp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_signout"
-            android:textSize="30sp"
-            android:textColor="#ffffff"
-            android:text="로그아웃"
-            android:layout_gravity="center"
-            />
 
 
     </LinearLayout>
