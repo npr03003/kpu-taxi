@@ -1,23 +1,22 @@
 package kr.ac.kpu.kpu_t
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import io.realm.Realm
-import io.realm.kotlin.createObject
-import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_taxi_room_setting.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
-
 
 
 class TaxiRoomSetting : AppCompatActivity() {
@@ -54,12 +53,12 @@ class TaxiRoomSetting : AppCompatActivity() {
         insertMode()
     }
 
-    private fun chatroom(ID:String , title:String , start:String, end:String, max:Int):String{
+    private fun chatroom(title:String , start:String, end:String, max:Int):String{
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("chat")
         val key = myRef.push().key
         val postVal : HashMap<String, Any> = HashMap()
-        postVal["member"]
+        postVal["member"] = ""
         postVal["max"] = max
         postVal["count"] = 1
         postVal["title"] = title
@@ -68,8 +67,7 @@ class TaxiRoomSetting : AppCompatActivity() {
 
 
         myRef.child(key!!).setValue(postVal)
-        
-        myRef.child(key).child("member").setValue(ID)
+
 
         return key
     }
@@ -98,14 +96,37 @@ class TaxiRoomSetting : AppCompatActivity() {
         else if(number2.isChecked){
             num = 2
         }
-        val myRef = FirebaseDatabase.getInstance()
+        val database = FirebaseDatabase.getInstance()
         val user = FirebaseAuth.getInstance()
-        val uid = user.uid
-        val ID = myRef.getReference("user/$uid").toString()
+        val uid = user.uid.toString()
+        val chatRef = database.getReference("chat")
+        val userRef = database.getReference("user")
 
-        val key = chatroom(ID, tt, strt, nd, num)
 
-        myRef.getReference("user/$uid/chatkey").setValue(key)
+        val key = chatroom(tt, strt, nd, num)
+
+        userRef.child(uid).child("chatkey").setValue(key)
+
+        //val postVal : HashMap<String, Any> = HashMap()
+
+        userRef.child("$uid/name").addListenerForSingleValueEvent(object:ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot){
+                val value = dataSnapshot.value.toString()
+
+                Log.d("member ID added","success")
+                Log.d("member ID is",value)
+
+                chatRef.child(key).child("member").child(uid).setValue(value)
+            }
+            override fun onCancelled(error: DatabaseError){
+                Log.d("member ID added","failed")
+            }
+        })
+
+
+
+
+
 
         alert("채팅방이 개설되었습니다."){
             yesButton { finish() }
