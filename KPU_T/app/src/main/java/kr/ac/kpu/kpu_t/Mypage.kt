@@ -11,12 +11,16 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_mypage.*
 
 
+
+
 /**
  * A simple [Fragment] subclass.
  */
 class Mypage : Fragment() {
 
 
+
+    private val multiplePermissionsCode = 100
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,10 +34,20 @@ class Mypage : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        signout_btn.setOnClickListener {
+        //로그아웃
+        btn_logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             finish()
         }
+
+        //프로필수정
+        btn_profilechange.setOnClickListener {
+
+            //
+        }
+
+
+
     }
 
 
@@ -45,5 +59,6 @@ class Mypage : Fragment() {
     fun finish(){
         finish()
     }
+
 
 }
