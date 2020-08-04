@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.startActivity
 import java.util.regex.Pattern
@@ -26,16 +27,6 @@ class SignInActivity : AppCompatActivity() {
         actionBar?.hide()
 
         firebaseAuth = FirebaseAuth.getInstance()
-
-        btn_login.setOnClickListener {
-            loginEmail()
-        }
-        //로그인
-        btn_signout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            finish()
-        }
-        //로그아웃
 
 
         btn_finish.setOnClickListener {
@@ -89,6 +80,15 @@ class SignInActivity : AppCompatActivity() {
                         user.sendEmailVerification().addOnCompleteListener(this) {
                             Toast.makeText(this,"인증 메일 발송",Toast.LENGTH_SHORT).show()
                         }
+                        val database = FirebaseDatabase.getInstance()
+                        val myRef = database.getReference("user")
+                        val id = user.uid
+
+                        val postVal : HashMap<String, Any> = HashMap()
+                        postVal["name"] = "산기대"
+                        postVal["chatkey"] = "null"
+                        myRef.child(id).setValue(postVal)
+
                     }
                 }else{
                     Toast.makeText(this,"failed",Toast.LENGTH_SHORT).show()

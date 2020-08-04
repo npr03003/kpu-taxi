@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/taxi"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".carfull_Board_setting"/>
+        <activity android:name=".dbpractice">
+        </activity>
+        <activity android:name=".ProfileChange" />
+        <activity android:name=".carfull_Board_setting" />
         <activity android:name=".TaxiRoomSetting" />
         <activity android:name=".FindpwActivity" />
         <activity android:name=".Chatting" />

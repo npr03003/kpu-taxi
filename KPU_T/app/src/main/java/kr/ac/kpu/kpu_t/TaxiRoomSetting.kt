@@ -1,29 +1,30 @@
 package kr.ac.kpu.kpu_t
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import io.realm.Realm
-import io.realm.kotlin.createObject
-import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_taxi_room_setting.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
-
 
 
 class TaxiRoomSetting : AppCompatActivity() {
     val realm = Realm.getDefaultInstance()
     var list_of_start = arrayOf("정왕역","오이도역","한국산업기술대학 정문")
     var list_of_end = arrayOf("한국산업기술대학 정문","정왕역","오이도역")
-    var start : String = "산기대"
-    var end : String = "화이팅"
+    lateinit var strt : String
+    lateinit var nd : String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,13 +34,12 @@ class TaxiRoomSetting : AppCompatActivity() {
 
         spStart.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,list_of_start)
         spEnd.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,list_of_end)
-
         spStart.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 println("출발지를 선택하세요.")
             }
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                start = list_of_start[position]
+                strt = list_of_start[position]
             }
         }
         spEnd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -47,18 +47,29 @@ class TaxiRoomSetting : AppCompatActivity() {
                 println("도착지를 선택하세요.")
             }
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                end = list_of_end[position]
+                nd = list_of_end[position]
             }
         }
-        val id = intent.getLongExtra("id",-1L)
-        if(id == -1L){
-            insertMode()
-        }
+        insertMode()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        realm.close()
+    private fun chatroom(title:String , start:String, end:String, max:Int):String{
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("chat")
+        val key = myRef.push().key
+        val postVal : HashMap<String, Any> = HashMap()
+        postVal["member"] = ""
+        postVal["max"] = max
+        postVal["count"] = 1
+        postVal["title"] = title
+        postVal["start"] = start
+        postVal["end"]= end
+
+
+        myRef.child(key!!).setValue(postVal)
+
+
+        return key
     }
     private fun insertMode(){
         floatingActionButton.setOnClickListener {
@@ -72,32 +83,53 @@ class TaxiRoomSetting : AppCompatActivity() {
 
 
     private fun insertTaxiSetting(){
-        realm.beginTransaction()
-        val setting = realm.createObject<ChatRoom>(nextId())
-        setting.title = edRoomName.text.toString()
-        setting.start = start
-        setting.end = end
+        val tt = edRoomName.text.toString()
+
+        var num : Int = 0
+
         if(number4.isChecked){
-            setting.number = 4
+            num = 4
         }
         else if(number3.isChecked){
-            setting.number = 3
+            num = 3
         }
         else if(number2.isChecked){
-            setting.number = 2
+            num = 2
         }
-        realm.commitTransaction()
+        val database = FirebaseDatabase.getInstance()
+        val user = FirebaseAuth.getInstance()
+        val uid = user.uid.toString()
+        val chatRef = database.getReference("chat")
+        val userRef = database.getReference("user")
+
+
+        val key = chatroom(tt, strt, nd, num)
+
+        userRef.child(uid).child("chatkey").setValue(key)
+
+        //val postVal : HashMap<String, Any> = HashMap()
+
+        userRef.child("$uid/name").addListenerForSingleValueEvent(object:ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot){
+                val value = dataSnapshot.value.toString()
+
+                Log.d("member ID added","success")
+                Log.d("member ID is",value)
+
+                chatRef.child(key).child("member").child(uid).setValue(value)
+            }
+            override fun onCancelled(error: DatabaseError){
+                Log.d("member ID added","failed")
+            }
+        })
+
+
+
+
+
 
         alert("채팅방이 개설되었습니다."){
             yesButton { finish() }
         }.show()
     }
-    private fun nextId(): Int{
-        val maxId = realm.where<ChatRoom>().max("id")
-        if (maxId != null){
-            return maxId.toInt() +1
-        }
-        return 0
-    }
-
 }
