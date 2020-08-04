@@ -58,7 +58,7 @@ class Mypage : Fragment() {
 
         signout_btn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            //Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             finish()
         }
 
