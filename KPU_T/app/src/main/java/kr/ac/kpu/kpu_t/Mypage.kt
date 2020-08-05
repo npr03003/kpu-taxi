@@ -15,19 +15,16 @@ import kotlinx.android.synthetic.main.fragment_mypage.*
 import org.jetbrains.anko.startActivity
 import kotlinx.android.synthetic.main.fragment_mypage.*
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_chatting.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class Mypage : Fragment() {
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-       // Email.setText()
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mypage, container, false)

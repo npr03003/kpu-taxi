@@ -3,11 +3,8 @@ package kr.ac.kpu.kpu_t
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.RadioGroup
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import io.realm.Realm
@@ -15,18 +12,14 @@ import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_taxi_room_setting.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 
-
-
 class TaxiRoomSetting : AppCompatActivity() {
-    val realm = Realm.getDefaultInstance()
+    val cRealm = Realm.getDefaultInstance()
     var list_of_start = arrayOf("정왕역","오이도역","한국산업기술대학 정문")
     var list_of_end = arrayOf("한국산업기술대학 정문","정왕역","오이도역")
     lateinit var strt : String
     lateinit var nd : String
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +44,14 @@ class TaxiRoomSetting : AppCompatActivity() {
                 nd = list_of_end[position]
             }
         }
-        insertMode()
+        val cid = intent.getLongExtra("cid",-1L)
+        if(cid==-1L){
+            insertMode()
+        }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        cRealm.close()
     }
 
     private fun chatroom(ID:String , title:String , start:String, end:String, max:Int):String{
@@ -83,20 +83,27 @@ class TaxiRoomSetting : AppCompatActivity() {
             else{ insertTaxiSetting() }}
     }
 
-
     private fun insertTaxiSetting(){
+        cRealm.beginTransaction()
+        val setting = cRealm.createObject<ChatBoard>(nextId())
         val tt = edRoomName.text.toString()
+        setting.ctitle = tt
+        setting.cstart = strt
+        setting.cend = nd
 
         var num : Int = 0
 
         if(number4.isChecked){
             num = 4
+            setting.cmax = num
         }
         else if(number3.isChecked){
             num = 3
+            setting.cmax = num
         }
         else if(number2.isChecked){
             num = 2
+            setting.cmax = num
         }
         val myRef = FirebaseDatabase.getInstance()
         val user = FirebaseAuth.getInstance()
@@ -106,9 +113,16 @@ class TaxiRoomSetting : AppCompatActivity() {
         val key = chatroom(ID, tt, strt, nd, num)
 
         myRef.getReference("user/$uid/chatkey").setValue(key)
-
+        cRealm.commitTransaction()
         alert("채팅방이 개설되었습니다."){
             yesButton { finish() }
         }.show()
+    }
+    private fun nextId(): Int{
+        val maxId = cRealm.where<ChatBoard>().max("cid")
+        if (maxId != null){
+            return maxId.toInt() +1
+        }
+        return 0
     }
 }

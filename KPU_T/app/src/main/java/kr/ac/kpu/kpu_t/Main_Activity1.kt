@@ -16,22 +16,22 @@ class Main_Activity1 : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     var TAG = "LoginActivity"
-    var backKeyPressedTime : Long = 0
+    var backKeyPressedTime: Long = 0
     private val PASSWORD_PATTERN: Pattern = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$")
     private val RC_SIGN_IN = 9001
 
-    private fun saveData(auto:Boolean){
+    private fun saveData(auto: Boolean) {
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
         val editor = pref.edit()
 
-        editor.putBoolean("KEY_AUTO",auto)
+        editor.putBoolean("KEY_AUTO", auto)
             .apply()
-
     }
-    private fun loadData(){
+
+    private fun loadData() {
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
-        val auto = pref.getBoolean("KEY_AUTO",false)
-        if(auto){
+        val auto = pref.getBoolean("KEY_AUTO", false)
+        if (auto) {
             autoLogin.isChecked = true
         }
     }
@@ -45,9 +45,9 @@ class Main_Activity1 : AppCompatActivity() {
 
         loadData()
         val user = FirebaseAuth.getInstance().currentUser
-        if (user != null&&autoLogin.isChecked){
+        if (user != null && autoLogin.isChecked) {
             startActivity<TaxiMain>("auto" to autoLogin.isChecked)
-        }else {
+        } else {
 
             // No user is signed in
             btn_Login.setOnClickListener {
@@ -64,6 +64,7 @@ class Main_Activity1 : AppCompatActivity() {
 
 
     }
+
     public override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -71,14 +72,14 @@ class Main_Activity1 : AppCompatActivity() {
         //updateUI(currentUser)
     }
 
-    fun Login(){
+    fun Login() {
         val email = Edit_email.text.toString()
         val password = Edit_PS.text.toString()
         val auto = autoLogin.isChecked
-        if (email.length<1 || password.length<1 ) {
+        if (email.length < 1 || password.length < 1) {
             val toast = Toast.makeText(this, "입력칸이 공란입니다.", Toast.LENGTH_SHORT)
             toast.show()
-        }else {
+        } else {
             saveData(auto)
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
@@ -87,30 +88,30 @@ class Main_Activity1 : AppCompatActivity() {
                         val user = FirebaseAuth.getInstance().currentUser
                         //updateUI(user)
                         if (user != null) {
-                            if(user.isEmailVerified){
+                            if (user.isEmailVerified) {
                                 startActivity<TaxiMain>("auto" to autoLogin.isChecked)
-                            }
-                            else{
-                                Toast.makeText(this,"메일을 인증하여 주세요.",Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(this, "메일을 인증하여 주세요.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(this,"존재하지 않는 계정입니다.",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "존재하지 않는 계정입니다.", Toast.LENGTH_SHORT).show()
                         //updateUI(null)
                     }
                 }
         }
     }
+
     override fun onBackPressed() {
         //1번째 백버튼 클릭
-        if(System.currentTimeMillis()>backKeyPressedTime+2000){
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
             Toast.makeText(this, "한번 더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
         }
         //2번째 백버튼 클릭 (종료)
-        else{
+        else {
             finishAffinity()
             exitProcess(0)
         }
@@ -118,3 +119,5 @@ class Main_Activity1 : AppCompatActivity() {
 
 
 }
+
+
