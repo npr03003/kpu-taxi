@@ -19,12 +19,12 @@ class PagerAdapter(fm:FragmentManager): FragmentPagerAdapter(fm) {
         itext=ArrayList<String>()
         items = ArrayList<Fragment>()
         items.add(Chatting())
-        items.add(Mypage())
         items.add(Noticeboard())
+        items.add(Mypage())
 
         itext.add("택시채팅방")
-        itext.add("마이페이지")
         itext.add("카풀게시판")
+        itext.add("마이페이지")
 
     }
     //2020.08.05 남준이가 수정함
