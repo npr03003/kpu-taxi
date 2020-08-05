@@ -128,9 +128,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_border"
                     android:textColor="#ffffff"
-                    android:drawableTop="@drawable/ic_settings_black_24dp"
-                    android:text="설정"
-                    android:id="@+id/btn_setting"
+                    android:drawableTop="@drawable/ic_delete_white_50dp"
+                    android:text="회원탈퇴"
+                    android:id="@+id/btn_delete"
                     />
                 <Button
                     android:layout_weight="1"

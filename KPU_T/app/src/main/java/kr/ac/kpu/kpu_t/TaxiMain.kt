@@ -1,6 +1,5 @@
 package kr.ac.kpu.kpu_t
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,11 +15,21 @@ class TaxiMain : AppCompatActivity() {
         setContentView(R.layout.activity_taxi_main)
         setTitle("KPU-Taxi")
 
+
+
         val fragmentAdapter=PagerAdapter(supportFragmentManager)
         viewpager_main.adapter=fragmentAdapter
 
-
+        //2020.08.05 남준이가 수정함
         tabs_main.setupWithViewPager(viewpager_main)
+        val images = ArrayList<Int>()
+        images.add(R.drawable.ic_chat_bubble_orange_24dp)
+        images.add(R.drawable.ic_home_orange_24dp)
+        images.add(R.drawable.ic_directions_car_orange_24dp)
+        for (i in 0..2) tabs_main.getTabAt(i)!!.setIcon(images[i])
+
+
+
     }
 
     override fun onBackPressed() {

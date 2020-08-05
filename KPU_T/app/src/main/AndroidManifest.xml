@@ -3,6 +3,10 @@
     package="kr.ac.kpu.kpu_t">
 
 
+
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"

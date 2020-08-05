@@ -1,31 +1,41 @@
 package kr.ac.kpu.kpu_t
 
-import android.app.Fragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.fragment.app.FragmentStatePagerAdapter
 
 class PagerAdapter(fm:FragmentManager): FragmentPagerAdapter(fm) {
 
-    override fun getItem(position: Int): androidx.fragment.app.Fragment {
-        return when (position) { //switch()문과 동일하다.
-            0 -> {Chatting()}
-            1 -> {Mypage()}
-            else -> {return Noticeboard()}
-        }
 
+    //2020.08.05 남준이가 수정함
+    private val items: ArrayList<Fragment>
+    private val itext:ArrayList<String>
+
+    //2020.08.05 남준이가 수정함
+    init {
+        itext=ArrayList<String>()
+        items = ArrayList<Fragment>()
+        items.add(Chatting())
+        items.add(Mypage())
+        items.add(Noticeboard())
+
+        itext.add("택시채팅방")
+        itext.add("마이페이지")
+        itext.add("카풀게시판")
 
     }
-
+    //2020.08.05 남준이가 수정함
+    override fun getItem(position: Int): Fragment {
+        return items[position]
+    }
+    //2020.08.05 남준이가 수정함
     override fun getCount(): Int {
-        return 3 //3개니깐
+        return items.size
+    }
+    //2020.08.05 남준이가 수정함
+    override fun getPageTitle(position: Int): CharSequence? {
+        return itext.get(position)
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return when (position){
-            0 -> "택시 채팅방"
-            1 -> "마이페이지"
-            else -> {return "카풀게시판"}
-        }
-    }
+
 }
