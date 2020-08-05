@@ -19,6 +19,8 @@ import kotlinx.android.synthetic.main.fragment_chatting.*
 
 
 
+
+
 class Chatting : Fragment() {
     val database = FirebaseDatabase.getInstance()
     val chatRef = database.getReference("chat")
@@ -38,12 +40,14 @@ class Chatting : Fragment() {
         val intent = Intent(activity, TaxiRoomSetting::class.java)
 
         plusFab.setOnClickListener { startActivity(intent) }
+
+
     }
 
     override fun onStart() {//fragment 생명주기 onStart
         super.onStart()
         val chatAdapter = context?.let { ChatRoomAdapter(it, chatList) }
-        chatRef.addListenerForSingleValueEvent(object :ValueEventListener{//데이터 불러오는 함수
+        chatRef.addListenerForSingleValueEvent(object :ValueEventListener{//데이터 불러오는
             override fun onDataChange(snapshot: DataSnapshot)  {
                 chatList.clear()//arraylist 초기화
                 for(x in snapshot.children){
@@ -87,6 +91,9 @@ class Chatting : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
     }
+
+
+
 }
 class ChatRoom(var title : String,var start : String,var end : String,var max : Int,var count : Int)
 

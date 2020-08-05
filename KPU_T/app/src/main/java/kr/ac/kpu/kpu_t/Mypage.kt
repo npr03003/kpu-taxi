@@ -15,10 +15,6 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_mypage.*
 
-import org.jetbrains.anko.startActivity
-import kotlinx.android.synthetic.main.fragment_mypage.*
-import kotlinx.android.synthetic.main.fragment_chatting.*
-
 
 
 /**
@@ -46,32 +42,8 @@ class Mypage : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
-
-
         //로그아웃
         //2020.08.05일에 남준이가 수정함 건들지 마셈
-
-        //로그아웃
-        btn_logout.setOnClickListener {
-
-        val user = FirebaseAuth.getInstance().currentUser
-            user?.let {
-                // Name, email address, and profile photo Url
-                val name = user.displayName
-                val email = user.email
-                val photoUrl = user.photoUrl
-
-                // Check if user's email is verified
-                val emailVerified = user.isEmailVerified
-
-                // The user's ID, unique to the Firebase project. Do NOT use this value to
-                // authenticate with your backend server, if you have one. Use
-                // FirebaseUser.getToken() instead.
-                val uid = user.uid
-                Email.setText("email : " + email)
-            }
-
         btn_logout.setOnClickListener {
             signout()
         }
@@ -102,9 +74,6 @@ class Mypage : Fragment() {
             dlg3.show()
         }
 
-
-
-    }
         //프로필수정
         btn_profilechange.setOnClickListener {
 
@@ -115,11 +84,7 @@ class Mypage : Fragment() {
     }
 
 
-    //2020.08.05일에 남준이가 수정함 건들지 마셈
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Toast.makeText(activity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-    }
+
 
     //2020.08.05일에 남준이가 수정함 건들지 마셈
     fun finish(){
