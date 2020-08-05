@@ -18,9 +18,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class Chatting : Fragment() {
     val database = FirebaseDatabase.getInstance()
     val chatRef = database.getReference("chat")
@@ -39,12 +37,12 @@ class Chatting : Fragment() {
         plusFab.setOnClickListener { startActivity(intent) }
     }
 
-    override fun onStart() {
+    override fun onStart() {//fragment 생명주기 onStart
         super.onStart()
         val chatAdapter = context?.let { ChatRoomAdapter(it, chatList) }
-        chatRef.addListenerForSingleValueEvent(object :ValueEventListener{
+        chatRef.addListenerForSingleValueEvent(object :ValueEventListener{//데이터 불러오는 함수
             override fun onDataChange(snapshot: DataSnapshot)  {
-                chatList.clear()
+                chatList.clear()//arraylist 초기화
                 for(x in snapshot.children){
                     chatRef.child(x.key.toString()).addListenerForSingleValueEvent(object :ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
