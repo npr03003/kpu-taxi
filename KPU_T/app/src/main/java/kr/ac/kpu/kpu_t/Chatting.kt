@@ -98,7 +98,6 @@ class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>)
         val textpath = view.findViewById<TextView>(R.id.text2)
         val threeImg = view.findViewById<ImageView>(R.id.threeImg)
         val fourImg = view.findViewById<ImageView>(R.id.fourImg)
-
         val ChatRoom = chatList[position]
         textTitle.text = ChatRoom.title
         textpath.text= "경로 : "+ChatRoom.start + " -> "+ChatRoom.end
