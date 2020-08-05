@@ -93,17 +93,18 @@ class TaxiRoomSetting : AppCompatActivity() {
         val userRef = database.getReference("user")
         val key = chatroom(tt, strt, nd, num)
         userRef.child(uid).child("chatkey").setValue(key)
-        userRef.child("$uid/name").addListenerForSingleValueEvent(object:ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot){
-                val value = dataSnapshot.value.toString()
-                Log.d("member ID added","success")
-                Log.d("member ID is",value)
-                chatRef.child(key).child("member").child(uid).setValue(value)
-            }
-            override fun onCancelled(error: DatabaseError){
-                Log.d("member ID added","failed")
-            }
-        })
+        userRef.child("$uid/name").addListenerForSingleValueEvent(object:ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val value = dataSnapshot.value.toString()
+                    Log.d("member ID added", "success")
+                    Log.d("member ID is", value)
+                    chatRef.child(key).child("member").child(uid).setValue(value)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("member ID added", "failed")
+                }
+            })
         alert("채팅방이 개설되었습니다."){
             yesButton { finish() }
         }.show()
