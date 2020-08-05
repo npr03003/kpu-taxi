@@ -6,120 +6,214 @@
     android:layout_height="match_parent"
     tools:context=".Mypage">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity ="center"
+        android:fillViewport="true"
+        android:layout_marginTop="0dp"
+        android:id="@+id/scrollView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ImageView
+                android:id="@+id/ProfileImage"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/ic_account_box_black_24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_marginTop="60dp"
+                android:id="@+id/Nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="닉네임 : "
+                android:textColor="#140308"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/Email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.452"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Nickname" />
 
 
-        <ImageView
-            android:id="@+id/ProfileImage"
-            android:layout_width="118dp"
-            android:layout_height="117dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/taxi_logo1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/ProfileImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:id="@+id/layout_numberone"
+                android:orientation="horizontal"
+                >
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_border"
+                    android:textColor="#ffffff"
+                    android:drawableTop="@drawable/ic_notifications_black_24dp"
+                    android:text="공지사항"
+                    android:id="@+id/btn_notice"
 
-        <TextView
-            android:id="@+id/Nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="닉네임 : "
-            android:textColor="#140308"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/Email"
-            app:layout_constraintTop_toTopOf="@+id/ProfileImage" />
+                    />
 
-        <TextView
-            android:id="@+id/Email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.452"
-            app:layout_constraintStart_toEndOf="@+id/ProfileImage"
-            app:layout_constraintTop_toBottomOf="@+id/Nickname" />
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_border"
+                    android:textColor="#ffffff"
+                    android:drawableTop="@drawable/ic_question_answer_black_24dp"
+                    android:text="FAQ"
+                    android:id="@+id/btn_FAQ"
+                    />
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_border"
+                    android:textColor="#ffffff"
+                    android:drawableTop="@drawable/ic_live_help_black_24dp"
+                    android:text="이용방법"
+                    android:id="@+id/btn_howtouse"
+                    />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/profileChangebtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="프로필 수정"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ProfileImage" />
-        <Button
-            android:id="@+id/notice_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@color/common_google_signin_btn_text_dark_pressed"
-            android:text="공지사항"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileChangebtn" />
+            <LinearLayout
 
-        <Button
-            android:id="@+id/FAQ_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/common_google_signin_btn_text_dark_pressed"
-            android:text="FAQ"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notice_btn" />
-        <Button
-            android:id="@+id/how_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/common_google_signin_btn_text_dark_pressed"
-            android:text="이용방법"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/FAQ_btn" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/layout_numberone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:id="@+id/layout_numbertwo"
+                android:orientation="horizontal"
+                >
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_border"
+                    android:textColor="#ffffff"
+                    android:drawableTop="@drawable/ic_phone_black_24dp"
+                    android:text="문의하기"
+                    android:id="@+id/btn_question"
+                    />
 
-        <Button
-            android:id="@+id/quest_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/common_google_signin_btn_text_dark_pressed"
-            android:text="문의하기"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/how_btn" />
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_border"
+                    android:textColor="#ffffff"
+                    android:drawableTop="@drawable/ic_settings_black_24dp"
+                    android:text="설정"
+                    android:id="@+id/btn_setting"
+                    />
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_border"
+                    android:textColor="#ffffff"
+                    android:drawableTop="@drawable/ic_exit_to_app_black_24dp"
+                    android:id="@+id/btn_logout"
+                    android:text="로그아웃"
+                    />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/settings_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/common_google_signin_btn_text_dark_pressed"
-            android:text="설정"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quest_btn" />
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/layout_numbertwo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:id="@+id/layout_numberthree"
+                android:orientation="horizontal"
+                >
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffa500"
+                    android:textColor="#ffffff"
+                    android:drawableTop="@drawable/ic_person_outline_black_24dp"
+                    android:text="프로필 수정"
+                    android:id="@+id/btn_profilechange"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/layout_numberthree"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:id="@+id/layout_numberfour"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="광고 배너"
+                    android:gravity="center"
+                    android:textSize="50sp"
+                    android:id="@+id/textview1"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="광고 배너"
+                    android:gravity="center"
+                    android:textSize="50sp"
+                    android:id="@+id/textview2"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="광고 배너"
+                    android:gravity="center"
+                    android:textSize="50sp"
+                    android:id="@+id/textview3"
+                    />
 
 
-        <Button
-            android:id="@+id/signout_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/common_google_signin_btn_text_dark_pressed"
-            android:text="로그아웃"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_btn" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
 
 </FrameLayout>

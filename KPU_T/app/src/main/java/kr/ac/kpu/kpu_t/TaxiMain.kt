@@ -32,6 +32,7 @@ import java.sql.Ref
 
 class TaxiMain : AppCompatActivity() {
     var backKeyPressedTime : Long = 0
+    var chatlist = arrayListOf<ChatRoom>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,6 @@ class TaxiMain : AppCompatActivity() {
 
 
         tabs_main.setupWithViewPager(viewpager_main)
-
     }
 
     override fun onBackPressed() {

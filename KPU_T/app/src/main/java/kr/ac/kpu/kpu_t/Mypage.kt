@@ -1,26 +1,27 @@
 package kr.ac.kpu.kpu_t
 
 
-import android.content.Context
+
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.fragment_mypage.*
 import org.jetbrains.anko.startActivity
 import kotlinx.android.synthetic.main.fragment_mypage.*
-import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_chatting.*
+
 
 /**
  * A simple [Fragment] subclass.
  */
 class Mypage : Fragment() {
+    private val multiplePermissionsCode = 100
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,30 +31,32 @@ class Mypage : Fragment() {
         return inflater.inflate(R.layout.fragment_mypage, container, false)
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+
+        //로그아웃
+        btn_logout.setOnClickListener {
 
         val user = FirebaseAuth.getInstance().currentUser
             user?.let {
                 // Name, email address, and profile photo Url
                 val name = user.displayName
                 val email = user.email
-            val photoUrl = user.photoUrl
+                val photoUrl = user.photoUrl
 
-            // Check if user's email is verified
-            val emailVerified = user.isEmailVerified
+                // Check if user's email is verified
+                val emailVerified = user.isEmailVerified
 
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getToken() instead.
-            val uid = user.uid
-            Email.setText("email : "+email)
-        }
+                // The user's ID, unique to the Firebase project. Do NOT use this value to
+                // authenticate with your backend server, if you have one. Use
+                // FirebaseUser.getToken() instead.
+                val uid = user.uid
+                Email.setText("email : " + email)
+            }
+        btn_logout.setOnClickListener {
 
-
-
-
-        signout_btn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             finish()
@@ -61,29 +64,28 @@ class Mypage : Fragment() {
 
 
 
-        profileChangebtn.setOnClickListener {
+        btn_profilechange.setOnClickListener {
             val intent = Intent(activity,ProfileChange::class.java)
             startActivity(intent)
         }
     }
+        //프로필수정
+        btn_profilechange.setOnClickListener {
 
-    override fun onResume() {
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
-            // Name, email address, and profile photo Url
-            val name = user.displayName
-            Nickname.setText("닉네임 : "+name)
+            //공백
         }
-        super.onResume()
+
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Toast.makeText(activity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
     fun finish(){
         finish()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-    }
 
 }

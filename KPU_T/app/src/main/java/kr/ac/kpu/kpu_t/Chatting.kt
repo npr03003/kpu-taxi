@@ -1,26 +1,30 @@
 package kr.ac.kpu.kpu_t
 
 
+import android.content.Context
 import android.content.Intent
 import kotlinx.android.synthetic.main.fragment_chatting.*
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import io.realm.OrderedRealmCollection
-import io.realm.Realm
-import io.realm.RealmBaseAdapter
-import io.realm.kotlin.where
-
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 /**
  * A simple [Fragment] subclass.
  */
 class Chatting : Fragment() {
-    val realm = Realm.getDefaultInstance()
+    val database = FirebaseDatabase.getInstance()
+    val chatRef = database.getReference("chat")
+    var chatList = arrayListOf<ChatRoom>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,54 +36,90 @@ class Chatting : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val intent = Intent(activity, TaxiRoomSetting::class.java)
-        val realmResult = realm.where<ChatBoard>().findAll()
-        val adapter = ChatBoardAdapter(realmResult)
-        listView.adapter = adapter
-        realmResult.addChangeListener { _ -> adapter.notifyDataSetChanged() }
         plusFab.setOnClickListener { startActivity(intent) }
     }
-}
 
-class ChatBoardAdapter(realmResult: OrderedRealmCollection<ChatBoard>) :
-    RealmBaseAdapter<ChatBoard>(realmResult) {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val h: ChatView
-        val view: View
-        if (convertView == null) {
-            view = LayoutInflater.from(parent?.context)
-                .inflate(R.layout.item_room, parent, false)
-            h = ChatView(view)
-            view.tag = h
-        }
-        else{
-            view = convertView
-            h = view.tag as ChatView
-        }
+    override fun onStart() {
+        super.onStart()
+        val chatAdapter = context?.let { ChatRoomAdapter(it, chatList) }
+        chatRef.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot)  {
+                chatList.clear()
+                for(x in snapshot.children){
+                    chatRef.child(x.key.toString()).addListenerForSingleValueEvent(object :ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            var c : Int = 0
+                            var e : String =""
+                            var m : Int = 0
+                            var s : String =""
+                            var t : String =""
+                            for(y in snapshot.children) {
+                                if (y.key.equals("count")) {
+                                    c = y.value.toString().toInt()
+                                } else if (y.key.equals("end")) {
+                                    e = y.value.toString()
+                                } else if (y.key.equals("max")) {
+                                    m = y.value.toString().toInt()
+                                } else if (y.key.equals("member")) {
+                                } else if (y.key.equals("start")) {
+                                    s = y.value.toString()
+                                } else if (y.key.equals("title")) {
+                                    t = y.value.toString()
+                                }
+                            }
+                            chatList.add(ChatRoom(t, s, e, m, c))
+                            listView.adapter = chatAdapter
+                        }
 
-        if(adapterData != null){
-            val item = adapterData!![position]
-            h.chatTitle.text = item.ctitle
-            h.chatPath.text = "경로 : "+item.cstart+" -> "+item.cend
-            if(item.cmax == 4){
-                h.threeSelectView.visibility = View.VISIBLE
-                h.fourSelectView.visibility = View.VISIBLE
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
+                    })
+                }
             }
-            else if(item.cmax == 3){
-                h.threeSelectView.visibility = View.VISIBLE
+            override fun onCancelled(error: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
-        }
-        return view
+        })
     }
-    override fun getItemId(position: Int): Long {
-        if (adapterData != null){
-            return adapterData!![position].cid
-        }
-        return super.getItemId(position)
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }
-class ChatView(view: View){
-    val chatTitle: TextView = view.findViewById(R.id.text1)
-    val chatPath: TextView = view.findViewById(R.id.text2)
-    val threeSelectView : ImageView = view.findViewById(R.id.threeImg)
-    val fourSelectView : ImageView = view.findViewById(R.id.fourImg)
+class ChatRoom(var title : String,var start : String,var end : String,var max : Int,var count : Int)
+
+class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>) : BaseAdapter() {
+    override fun getView(position: Int, p1: View?, p2: ViewGroup?): View {
+        val view: View = LayoutInflater.from(context).inflate(R.layout.item_room,null)
+
+        val textTitle = view.findViewById<TextView>(R.id.text1)
+        val textpath = view.findViewById<TextView>(R.id.text2)
+        val threeImg = view.findViewById<ImageView>(R.id.threeImg)
+        val fourImg = view.findViewById<ImageView>(R.id.fourImg)
+
+        val ChatRoom = chatList[position]
+        textTitle.text = ChatRoom.title
+        textpath.text= "경로 : "+ChatRoom.start + " -> "+ChatRoom.end
+        if(ChatRoom.max==4){
+            threeImg.visibility = View.VISIBLE
+            fourImg.visibility = View.VISIBLE
+        }
+        else if(ChatRoom.max==3){
+            threeImg.visibility = View.VISIBLE
+        }
+        return  view
+    }
+
+    override fun getItem(position: Int): Any {
+        return chatList[position]
+    }
+
+    override fun getItemId(p0: Int): Long {
+        return 0
+    }
+
+    override fun getCount(): Int {
+        return  chatList.size
+    }
 }
