@@ -20,7 +20,6 @@ import org.jetbrains.anko.yesButton
 
 
 class TaxiRoomSetting : AppCompatActivity() {
-    val realm = Realm.getDefaultInstance()
     var list_of_start = arrayOf("정왕역","오이도역","한국산업기술대학 정문")
     var list_of_end = arrayOf("한국산업기술대학 정문","정왕역","오이도역")
     lateinit var strt : String
@@ -53,7 +52,7 @@ class TaxiRoomSetting : AppCompatActivity() {
         insertMode()
     }
 
-    private fun chatroom(title:String , start:String, end:String, max:Int):String{
+    private fun chatroom(title:String , start:String, end:String, max:Int) : String{
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("chat")
         val key = myRef.push().key
@@ -83,6 +82,7 @@ class TaxiRoomSetting : AppCompatActivity() {
 
 
     private fun insertTaxiSetting(){
+
         val tt = edRoomName.text.toString()
 
         var num : Int = 0
@@ -106,8 +106,6 @@ class TaxiRoomSetting : AppCompatActivity() {
         val key = chatroom(tt, strt, nd, num)
 
         userRef.child(uid).child("chatkey").setValue(key)
-
-        //val postVal : HashMap<String, Any> = HashMap()
 
         userRef.child("$uid/name").addListenerForSingleValueEvent(object:ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot){
