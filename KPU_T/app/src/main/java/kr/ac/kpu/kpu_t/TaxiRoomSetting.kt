@@ -5,27 +5,21 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_taxi_room_setting.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
 
-
 class TaxiRoomSetting : AppCompatActivity() {
-    val realm = Realm.getDefaultInstance()
     var list_of_start = arrayOf("정왕역","오이도역","한국산업기술대학 정문")
     var list_of_end = arrayOf("한국산업기술대학 정문","정왕역","오이도역")
     lateinit var strt : String
     lateinit var nd : String
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +44,9 @@ class TaxiRoomSetting : AppCompatActivity() {
                 nd = list_of_end[position]
             }
         }
-        insertMode()
+            insertMode()
     }
-
-    private fun chatroom(title:String , start:String, end:String, max:Int):String{
+    private fun chatroom(title:String , start:String, end:String, max:Int) : String{
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("chat")
         val key = myRef.push().key
@@ -64,13 +57,10 @@ class TaxiRoomSetting : AppCompatActivity() {
         postVal["title"] = title
         postVal["start"] = start
         postVal["end"]= end
-
-
         myRef.child(key!!).setValue(postVal)
-
-
         return key
     }
+
     private fun insertMode(){
         floatingActionButton.setOnClickListener {
             if(number2.isChecked==false&&number3.isChecked==false&&number4.isChecked==false){
@@ -81,10 +71,8 @@ class TaxiRoomSetting : AppCompatActivity() {
             else{ insertTaxiSetting() }}
     }
 
-
     private fun insertTaxiSetting(){
         val tt = edRoomName.text.toString()
-
         var num : Int = 0
 
         if(number4.isChecked){
@@ -101,35 +89,23 @@ class TaxiRoomSetting : AppCompatActivity() {
         val uid = user.uid.toString()
         val chatRef = database.getReference("chat")
         val userRef = database.getReference("user")
-
-
         val key = chatroom(tt, strt, nd, num)
-
         userRef.child(uid).child("chatkey").setValue(key)
+        userRef.child("$uid/name").addListenerForSingleValueEvent(object:ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val value = dataSnapshot.value.toString()
+                    Log.d("member ID added", "success")
+                    Log.d("member ID is", value)
+                    chatRef.child(key).child("member").child(uid).setValue(value)
+                }
 
-        //val postVal : HashMap<String, Any> = HashMap()
-
-        userRef.child("$uid/name").addListenerForSingleValueEvent(object:ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot){
-                val value = dataSnapshot.value.toString()
-
-                Log.d("member ID added","success")
-                Log.d("member ID is",value)
-
-                chatRef.child(key).child("member").child(uid).setValue(value)
-            }
-            override fun onCancelled(error: DatabaseError){
-                Log.d("member ID added","failed")
-            }
-        })
-
-
-
-
-
-
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("member ID added", "failed")
+                }
+            })
         alert("채팅방이 개설되었습니다."){
             yesButton { finish() }
         }.show()
     }
+
 }

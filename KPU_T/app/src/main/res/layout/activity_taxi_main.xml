@@ -12,7 +12,6 @@
         android:layout_height="0dip"
         android:id="@+id/viewpager_main"
         android:layout_weight="9"
-
         />
 
 

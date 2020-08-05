@@ -8,6 +8,5 @@ open class carfullBoard(
     var cftitle: String = "",
     var cfstart: String = "",
     var cfend: String = ""
-
     ) : RealmObject() {
 }
