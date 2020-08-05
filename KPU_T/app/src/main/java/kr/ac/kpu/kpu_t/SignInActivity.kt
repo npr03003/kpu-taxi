@@ -32,8 +32,13 @@ class SignInActivity : AppCompatActivity() {
         btn_finish.setOnClickListener {
             val email = Sign_edit_email.text.toString()
             val password = Sign_edit_password.text.toString()
-            if(isValidEmail(email) && isValidPasswd(password)) {
-                createEmail(email, password)
+            val gender = genderchecked()
+            if(gender=="null"){
+                Toast.makeText(this,"자신의 성별을 선택하여주세요",Toast.LENGTH_SHORT).show()
+            }else{
+                if(isValidEmail(email) && isValidPasswd(password)) {
+                    createEmail(email, password, gender)
+                }
             }
         }
         //가입완료
@@ -58,6 +63,16 @@ class SignInActivity : AppCompatActivity() {
         }
 
     }
+    private fun genderchecked() : String {
+
+        if (malebtn.isChecked&& !femalebtn.isChecked){
+            return "남"
+        } else if (!malebtn.isChecked && femalebtn.isChecked){
+            return "여"
+        } else{
+            return "null"
+        }
+    }
 
     private fun isValidPasswd(password:String): Boolean {
         return if(password.isEmpty()) {
@@ -71,7 +86,7 @@ class SignInActivity : AppCompatActivity() {
             return true;
         }
     }
-    private fun createEmail(email:String, password: String){
+    private fun createEmail(email:String, password: String, gender: String){
         firebaseAuth!!.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener(this){
                 if(it.isSuccessful){
@@ -87,6 +102,7 @@ class SignInActivity : AppCompatActivity() {
                         val postVal : HashMap<String, Any> = HashMap()
                         postVal["name"] = "산기대"
                         postVal["chatkey"] = "null"
+                        postVal["gender"] = gender
                         myRef.child(id).setValue(postVal)
 
                     }

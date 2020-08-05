@@ -107,7 +107,7 @@ class TaxiRoomSetting : AppCompatActivity() {
 
         userRef.child(uid).child("chatkey").setValue(key)
 
-        userRef.child("$uid/name").addListenerForSingleValueEvent(object:ValueEventListener{
+        userRef.child("$uid/gender").addListenerForSingleValueEvent(object:ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot){
                 val value = dataSnapshot.value.toString()
 

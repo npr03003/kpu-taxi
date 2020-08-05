@@ -1,9 +1,13 @@
 package kr.ac.kpu.kpu_t
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
@@ -47,9 +51,24 @@ class carfull_Board_setting : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val user = FirebaseAuth.getInstance()
         val uid = user.uid.toString()
+        val userRef = database.getReference("user")
         val boardRef = database.getReference("board")
 
         val key = board(tt,start,end,uid,body)
+
+        userRef.child("$uid/name").addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot){
+                val value = dataSnapshot.value.toString()
+
+                Log.d("board name added","success")
+                Log.d("board ID is",value)
+
+                boardRef.child(key).child("name").setValue(value)
+            }
+            override fun onCancelled(error: DatabaseError){
+                Log.d("board name added","failed")
+            }
+        })
 
 
         alert("게시판이 개설되었습니다."){
