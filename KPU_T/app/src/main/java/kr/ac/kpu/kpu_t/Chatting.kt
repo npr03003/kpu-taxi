@@ -64,6 +64,7 @@ class Chatting : Fragment() {
                                 } else if (y.key.equals("max")) {
                                     m = y.value.toString().toInt()
                                 } else if (y.key.equals("member")) {
+
                                 } else if (y.key.equals("start")) {
                                     s = y.value.toString()
                                 } else if (y.key.equals("title")) {
