@@ -40,8 +40,6 @@ class Chatting : Fragment() {
         val intent = Intent(activity, TaxiRoomSetting::class.java)
 
         plusFab.setOnClickListener { startActivity(intent) }
-
-
     }
 
     override fun onStart() {//fragment 생명주기 onStart
