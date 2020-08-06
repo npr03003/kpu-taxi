@@ -4,11 +4,13 @@ package kr.ac.kpu.kpu_t
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -36,22 +38,24 @@ class Noticeboard : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val intent = Intent(activity,carfull_Board_setting::class.java)
         createFab.setOnClickListener { startActivity(intent) }
+        carfullView.setOnItemClickListener { adapterView, view, i, l ->
+
+        }
     }
-
-    override fun onStart() {
-        super.onStart()
-        val boardAdapter = context?.let { boardAdapter( it , boardlist) }
-
+    private fun loadBoard(){
+        val boardAdapter = context?.let { boardAdapter(it, boardlist) }
         boardRef.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 boardlist.clear()
                 for(i in snapshot.children){
+                    var id : String = ""
                     boardRef.child(i.key.toString()).addListenerForSingleValueEvent(object :ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
                             var st :String=""
                             var ed :String=""
                             var tt:String=""
                             var mkr:String=""
+                            id = i.value.toString()
                             for(j in snapshot.children){
                                 if(j.key.equals("start")){
                                     st = j.value.toString()
@@ -63,7 +67,7 @@ class Noticeboard : Fragment() {
                                     mkr = j.value.toString()
                                 }
                             }
-                            boardlist.add(carfullBoard(tt,st,ed,mkr))
+                            boardlist.add(carfullBoard(tt,st,ed,mkr,id))
                             carfullView.adapter = boardAdapter
                         }
 
@@ -78,12 +82,20 @@ class Noticeboard : Fragment() {
                 TODO("Not yet implemented")
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        loadBoard()
 
     }
 
 
 }
-class carfullBoard(var title:String, var start:String, var end:String, var maker:String)
+
+
+class carfullBoard(var title:String, var start:String, var end:String, var maker:String, var boardid:String)
+
 
 class boardAdapter(val context:Context, val boardlist: ArrayList<carfullBoard>):BaseAdapter(){
     override fun getView(position: Int, p1: View?, p2: ViewGroup?): View {
@@ -92,9 +104,12 @@ class boardAdapter(val context:Context, val boardlist: ArrayList<carfullBoard>):
         val titleboard = view.findViewById<TextView>(R.id.boardTitle)
         val routeboard = view.findViewById<TextView>(R.id.boardroute)
         val boardnum = boardlist[position]
-        val boardkey = boardnum.maker
+        val boardowner = boardnum.maker
+        val boardid = boardnum.boardid
         titleboard.text = boardnum.title
         routeboard.text = "경로: "+boardnum.start+" -> "+boardnum.end
+
+
         return view
     }
 
@@ -107,6 +122,6 @@ class boardAdapter(val context:Context, val boardlist: ArrayList<carfullBoard>):
     }
 
     override fun getItemId(p0: Int): Long {
-        return 0
+        return p0.toLong()
     }
 }
