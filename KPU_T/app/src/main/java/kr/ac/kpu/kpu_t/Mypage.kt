@@ -96,8 +96,6 @@ class Mypage : Fragment() {
         //계정삭제
         //2020.08.05일에 남준이가 수정함 건들지 마셈
         btn_delete.setOnClickListener {
-
-
             val dlg3 = activity?.let { AlertDialog.Builder(it) }
             dlg3!!.setTitle("계정삭제").setMessage("정말로 계정을 삭제하시겠습니까?")
             dlg3.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
@@ -108,8 +106,6 @@ class Mypage : Fragment() {
             dlg3.setNegativeButton("취소",
                 DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
             dlg3.show()
-
-
         }
 
         //프로필수정
@@ -129,14 +125,6 @@ class Mypage : Fragment() {
         }
 
     }
-
-
-
-
-
-
-
-
 
     //2020.08.05일에 남준이가 수정함 건들지 마셈
     fun finish(){

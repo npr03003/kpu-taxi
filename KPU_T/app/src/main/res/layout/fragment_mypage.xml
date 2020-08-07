@@ -25,9 +25,23 @@
                 android:layout_height="130dp"
                 android:layout_marginStart="33dp"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/ic_account_box_black_24dp"
+                android:background="@drawable/no_image_camera_117dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_imageSetting"
+                app:layout_constraintTop_toBottomOf="@+id/Nickname"
+                app:layout_constraintBottom_toTopOf="@+id/layout_numberone"
+                app:layout_constraintStart_toEndOf="@+id/ProfileImage"
+                android:layout_marginBottom="40dp"
+                android:text="프로필 수정"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:background="@drawable/button_border"
+                />
 
             <TextView
                 android:layout_marginTop="60dp"

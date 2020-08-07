@@ -2,8 +2,6 @@ package kr.ac.kpu.kpu_t
 
 
 import androidx.fragment.app.Fragment
-
-
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
@@ -12,7 +10,7 @@ class PagerAdapter(fm:FragmentManager): FragmentPagerAdapter(fm) {
 
     //2020.08.05 남준이가 수정함
     private val items: ArrayList<Fragment>
-    private val itext:ArrayList<String>
+    private val itext: ArrayList<String>
 
     //2020.08.05 남준이가 수정함
     init {

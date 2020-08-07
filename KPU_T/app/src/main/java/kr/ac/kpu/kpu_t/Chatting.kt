@@ -39,12 +39,11 @@ class Chatting : Fragment() {
 
         val intent = Intent(activity, TaxiRoomSetting::class.java)
 
+
         plusFab.setOnClickListener {
             startActivity(intent) }
 
-
-
-
+        plusFab.setOnClickListener { startActivity(intent) }
 
     }
 
@@ -70,6 +69,7 @@ class Chatting : Fragment() {
                                 } else if (y.key.equals("max")) {
                                     m = y.value.toString().toInt()
                                 } else if (y.key.equals("member")) {
+
                                 } else if (y.key.equals("start")) {
                                     s = y.value.toString()
                                 } else if (y.key.equals("title")) {
@@ -109,7 +109,6 @@ class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>)
         val textpath = view.findViewById<TextView>(R.id.text2)
         val threeImg = view.findViewById<ImageView>(R.id.threeImg)
         val fourImg = view.findViewById<ImageView>(R.id.fourImg)
-
         val ChatRoom = chatList[position]
         textTitle.text = ChatRoom.title
         textpath.text= "경로 : "+ChatRoom.start + " -> "+ChatRoom.end

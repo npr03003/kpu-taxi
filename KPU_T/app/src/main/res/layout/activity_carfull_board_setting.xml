@@ -80,7 +80,7 @@
         android:id="@+id/bodyTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="24dp"
         android:padding="6dp"
         android:text="내용 : "
