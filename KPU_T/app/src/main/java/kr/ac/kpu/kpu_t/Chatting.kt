@@ -39,7 +39,11 @@ class Chatting : Fragment() {
 
         val intent = Intent(activity, TaxiRoomSetting::class.java)
 
-        plusFab.setOnClickListener { startActivity(intent) }
+        plusFab.setOnClickListener {
+            startActivity(intent) }
+
+
+
 
 
     }

@@ -31,26 +31,28 @@
 
             <TextView
                 android:layout_marginTop="60dp"
-                android:id="@+id/Nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="닉네임 : "
                 android:textColor="#140308"
                 android:textSize="20sp"
+                android:id="@+id/Nickname"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/Email"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="94dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="email"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.452"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Nickname" />
+                android:id="@+id/Nickname2"
+                android:text="UnKnown"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/Nickname"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/layout_numberone"
+                />
 
 
             <LinearLayout
@@ -160,11 +162,22 @@
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#ffffa500"
+                    android:background="@drawable/button_border"
                     android:textColor="#ffffff"
                     android:drawableTop="@drawable/ic_person_outline_black_24dp"
                     android:text="프로필 수정"
                     android:id="@+id/btn_profilechange"
+                    />
+
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_border"
+                    android:textColor="#ffffff"
+                    android:drawableTop="@drawable/ic_face_white_24dp"
+                    android:text="닉네임 설정"
+                    android:id="@+id/btn_setnickname"
                     />
             </LinearLayout>
 

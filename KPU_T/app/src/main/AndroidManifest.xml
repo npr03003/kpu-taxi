@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kr.ac.kpu.kpu_t">
 
-
-
-
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
@@ -15,6 +12,8 @@
         android:roundIcon="@mipmap/taxi"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SetNickname"></activity>
+        <activity android:name=".GongG" />
         <activity android:name=".ProfileChange" />
         <activity android:name=".carfull_Board_setting" />
         <activity android:name=".TaxiRoomSetting" />
@@ -31,4 +30,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
