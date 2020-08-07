@@ -38,15 +38,13 @@ class Chatting : Fragment() {
 
 
         val intent = Intent(activity, TaxiRoomSetting::class.java)
-
-
-        plusFab.setOnClickListener {
-            startActivity(intent) }
+        val cintent = Intent(activity, ChattingRoom::class.java)
 
         plusFab.setOnClickListener { startActivity(intent) }
-
+        listView.setOnItemClickListener { adapterView, view, i, l ->
+            startActivity(cintent)
+        }
     }
-
     override fun onStart() {//fragment 생명주기 onStart
         super.onStart()
         val chatAdapter = context?.let { ChatRoomAdapter(it, chatList) }

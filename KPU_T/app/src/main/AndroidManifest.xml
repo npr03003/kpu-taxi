@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/taxi"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SetNickname"></activity>
+        <activity android:name=".ChattingRoom" android:parentActivityName=".TaxiMain"/>
+        <activity android:name=".SetNickname" />
         <activity android:name=".GongG" />
         <activity android:name=".ProfileChange" />
         <activity android:name=".carfull_Board_setting" />
