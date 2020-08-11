@@ -1,7 +1,10 @@
 package kr.ac.kpu.kpu_t
 
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,9 +41,45 @@ class Chatting : Fragment() {
         val intent = Intent(activity, TaxiRoomSetting::class.java)
         plusFab.setOnClickListener { startActivity(intent) }
         listView.setOnItemClickListener { adapterView, view, i, l ->
-            val cintent = Intent(activity, ChattingRoom::class.java)
-            cintent.putExtra("key",chatList.get(i).key)
-            startActivity(cintent)
+            var cKey = chatList.get(i).key
+            var cCount = chatList.get(i).count
+            userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var chatkey :String
+                    chatkey=snapshot.child("chatkey").value as String
+                    if(chatkey==cKey)
+                    {
+                        val cintent = Intent(activity, ChattingRoom::class.java)
+                        cintent.putExtra("key",cKey)
+                        startActivity(cintent)
+                    }
+                    else{
+                        var dialog = AlertDialog.Builder(activity)
+                        dialog.setMessage("채팅방에 입장하시겠습니까?")
+                        var dialog_listener = object : DialogInterface.OnClickListener{
+                            override fun onClick(p0: DialogInterface?, p1: Int) {
+                                when(p1){
+                                    DialogInterface.BUTTON_POSITIVE-> {
+                                        userRef.child(uid).child("chatkey").setValue(cKey)
+                                        chatRef.child(chatkey).child("count").setValue(cCount+1)
+                                        val cintent = Intent(activity, ChattingRoom::class.java)
+                                        cintent.putExtra("key", cKey)
+                                        startActivity(cintent)
+                                    }
+                                    DialogInterface.BUTTON_NEGATIVE-> {
+                                        null
+                                    }
+                                }
+                            }
+                        }
+                        dialog.setPositiveButton("입장",dialog_listener)
+                        dialog.setNegativeButton("취소",dialog_listener)
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
         }
     }
     override fun onStart() {//fragment 생명주기 onStart
@@ -50,6 +89,7 @@ class Chatting : Fragment() {
                 var chatkey :String
                 chatkey=snapshot.child("chatkey").value as String
                 chatRef.addListenerForSingleValueEvent(object :ValueEventListener{
+                    @SuppressLint("RestrictedApi")
                     override fun onDataChange(snapshot: DataSnapshot) {
                         for(x in snapshot.children){
                             if (x.key.toString()==chatkey){
