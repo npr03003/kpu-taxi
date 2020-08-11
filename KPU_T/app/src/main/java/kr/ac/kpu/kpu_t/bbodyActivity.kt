@@ -45,19 +45,42 @@ class bbodyActivity : AppCompatActivity() {
         if (id != null) {
             brdid = id
         }
-        viewreply(brdid)
-    }
+        val replychild = database.getReference("board/$brdid/reply")
+        val childL = object : ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val name = snapshot.child("name").value.toString()
+                val body = snapshot.child("text").value.toString()
+                val maker = snapshot.child("maker").value.toString()
+                val time = snapshot.child("time").value.toString()
+                val boardid = snapshot.child("boardid").value.toString()
+                replylist.add(reply(name,body, maker, time, boardid))
+            }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return super.onCreateOptionsMenu(menu)
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                viewreply(brdid)
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                viewreply(brdid)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        }
+        replychild.addChildEventListener(childL)
     }
 
     override fun onResume() {
         super.onResume()
         showboardbody(brdid)
+        viewreply(brdid)
         replysavebtn.setOnClickListener {
             savereply(brdid)
-            viewreply(brdid)
         }
         boarddeletebtn.setOnClickListener {
             boardRef.child(brdid).removeValue()
@@ -114,7 +137,7 @@ class bbodyActivity : AppCompatActivity() {
         val date = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val time = c.format(date)
         if(replyET.text.toString()!="") {
-            boardRef.child(boardid).addListenerForSingleValueEvent(object : ValueEventListener {
+            boardRef.child(boardid).child("reply").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val postVal: HashMap<String, Any> = HashMap()
                     postVal["text"] = replyET.text.toString()
@@ -210,15 +233,13 @@ class replyadapter(val context: Context, val replylist:ArrayList<reply>):BaseAda
         val delete = view.findViewById<Button>(R.id.replydeletebtn)
         delete.setOnClickListener {
             boardrpyRef.child(replynum.time).removeValue()
-            name.visibility = View.GONE
-            text.visibility = View.GONE
-            delete.visibility = View.GONE
         }
         if (user != null) {
             if(user.uid == replynum.maker){
                 delete.visibility=View.VISIBLE
             }
         }
+        Log.d("list size",count.toString())
         return view
     }
 
