@@ -24,7 +24,19 @@
         android:text="내용이 들어갈 텍스트뷰입니다"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/replydeletebtn"
         app:layout_constraintStart_toEndOf="@+id/replynameTV"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/replydeletebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="댓글삭제"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -158,8 +158,6 @@ class SetImage : AppCompatActivity() {
             progressDialog.show()
 
             //storage
-
-
             //Unique한 파일명을 만들자.
             val formatter = SimpleDateFormat("yyyyMMHH_mmss")
             val now = Date()

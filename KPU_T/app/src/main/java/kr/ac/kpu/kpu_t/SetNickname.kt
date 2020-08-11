@@ -1,9 +1,11 @@
 package kr.ac.kpu.kpu_t
 
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -50,19 +52,46 @@ class SetNickname : AppCompatActivity() {
                                     nickname2=y.value.toString()
 
                                     btn_checkoverlap.setOnClickListener {
-                                        nickname=Edit_nickname.text.toString()
-                                        if(nickname.equals(nickname2)){
-                                            textview_result_cant.visibility= View.VISIBLE
-                                            //중복되었을 떄
-                                        }
-                                        else{
-                                            Edit_nickname.text.toString()
-                                            textview_result_can.visibility=View.VISIBLE
-                                            isgranted=1
-                                            Ref.child(uid).child("name").setValue(nickname)
-                                            //중복 안되고 닉넴 괜찮을 때
+                                        var dialog = AlertDialog.Builder(this@SetNickname)
+                                        dialog.setTitle("닉네임 변경")
+                                        dialog.setMessage("닉네임 변경시 기존 이미지를 다시 설정해야합니다. 계속하시겠습니까?")
 
+                                        fun toast_p(){
+                                            nickname=Edit_nickname.text.toString()
+                                            if(nickname.equals(nickname2)){
+                                                textview_result_cant.visibility= View.VISIBLE
+                                                //중복되었을 떄
+                                            }
+                                            else{
+                                                Edit_nickname.text.toString()
+                                                textview_result_can.visibility=View.VISIBLE
+                                                isgranted=1
+                                                Ref.child(uid).child("name").setValue(nickname)
+                                                //중복 안되고 닉넴 괜찮을 때
+
+                                            }
                                         }
+                                        fun toast_n(){
+                                            Toast.makeText(applicationContext,"거부 버튼을 눌렀습니다.",Toast.LENGTH_LONG).show()
+                                        }
+                                        var dialog_listener = object: DialogInterface.OnClickListener{
+                                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                                when(which){
+                                                    DialogInterface.BUTTON_POSITIVE ->
+                                                        toast_p()
+                                                    DialogInterface.BUTTON_NEGATIVE ->
+                                                        toast_n()
+                                                }
+                                            }
+                                        }
+                                        dialog.setPositiveButton("확인",dialog_listener)
+                                        dialog.setNegativeButton("거부",dialog_listener)
+                                        dialog.show()
+
+
+
+
+
 
                                     }
 
@@ -105,4 +134,7 @@ class SetNickname : AppCompatActivity() {
 
 
     }
+
+
+
 }

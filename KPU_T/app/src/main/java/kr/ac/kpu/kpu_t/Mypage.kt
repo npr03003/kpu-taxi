@@ -43,6 +43,7 @@ class Mypage : Fragment() {
     val Ref = database.getReference("user")
     val user = FirebaseAuth.getInstance().currentUser
     val uid = user!!.uid.toString()
+    private var user2222:String=""
 
     private var filePath: Uri?=null
 
@@ -51,110 +52,55 @@ class Mypage : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mypage, container, false)
     }
 
     override fun onStart() {
         super.onStart()
-        displayimage()
-        //데이터받아옴
-        //2020.08.06일에 남준이가 수정함 건들지 마셈
-        Ref.addListenerForSingleValueEvent(object : ValueEventListener {//데이터 불러오는
-        override fun onDataChange(snapshot: DataSnapshot)  {
 
-            Ref.child(uid).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for(x in snapshot.children) {
-                        if(x.key.equals("name")){
-                            var nickname333:String=x.value.toString()
-                            Nickname2.setText(nickname333)
-
-                        }
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-            })
-        }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
     }
 
     override fun onResume() {
         super.onResume()
         displayimage()
-        Ref.addListenerForSingleValueEvent(object : ValueEventListener {//데이터 불러오는
-        override fun onDataChange(snapshot: DataSnapshot)  {
-
-            Ref.child(uid).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for(x in snapshot.children) {
-                        if(x.key.equals("name")){
-                            var nickname333:String=x.value.toString()
-                            Nickname2.setText(nickname333)
-
-                        }
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-            })
-        }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
     }
 
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
         var unknown:String="알수없음"
 
+        Ref.addListenerForSingleValueEvent(object : ValueEventListener {//데이터 불러오는
+        override fun onDataChange(snapshot: DataSnapshot)  {
 
+            Ref.child(uid).addListenerForSingleValueEvent(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(x in snapshot.children) {
+                        if(x.key.equals("name")){
+                            var nickname333:String=x.value.toString()
+                            Nickname2.setText(nickname333)
+                            user2222=nickname333
+                            displayimage()
 
-        btn_sync.setOnClickListener{
-            displayimage()
-            //데이터받아옴
-            //2020.08.06일에 남준이가 수정함 건들지 마셈
-            Ref.addListenerForSingleValueEvent(object : ValueEventListener {//데이터 불러오는
-            override fun onDataChange(snapshot: DataSnapshot)  {
-
-                Ref.child(uid).addListenerForSingleValueEvent(object :
-                    ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        for(x in snapshot.children) {
-                            if(x.key.equals("name")){
-                                var nickname333:String=x.value.toString()
-                                Nickname2.setText(nickname333)
-
-                            }
                         }
                     }
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-                })
-            }
+                }
                 override fun onCancelled(error: DatabaseError) {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
             })
+        }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
 
-            Toast.makeText(activity,"동기화 완료",Toast.LENGTH_LONG).show()
+        btn_sync.setOnClickListener{
+            displayimage()
+            Toast.makeText(activity,"동기화 완료",Toast.LENGTH_SHORT).show()
         }
 
         //로그아웃
@@ -202,6 +148,8 @@ class Mypage : Fragment() {
         btn_setnickname.setOnClickListener {
             val intent = Intent(activity, SetNickname::class.java)
             startActivity(intent)
+
+
         }
 
 
@@ -236,7 +184,6 @@ class Mypage : Fragment() {
 
 
     fun delete(){
-
         user!!.delete()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
