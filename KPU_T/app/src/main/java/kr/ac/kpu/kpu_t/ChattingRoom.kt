@@ -114,6 +114,18 @@ class ChattingRoom : AppCompatActivity() {
                                 } else if (m == 3) {
                                     roomThreeImg.visibility = View.VISIBLE
                                 }
+                                if (c==4){
+                                    roomFourImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                                    roomTwoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                                    roomThreeImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                                }
+                                else if(c==3){
+                                    roomTwoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                                    roomThreeImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                                }
+                                else if(c==2){
+                                    roomTwoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                                }
                             }
 
                             override fun onCancelled(error: DatabaseError) {
