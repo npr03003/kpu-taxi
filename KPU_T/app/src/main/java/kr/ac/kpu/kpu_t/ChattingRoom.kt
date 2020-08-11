@@ -3,6 +3,7 @@ package kr.ac.kpu.kpu_t
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -13,7 +14,6 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chatting_room.*
 import java.text.SimpleDateFormat
 import java.util.*
-import android.widget.Toast.makeText as makeText1
 
 class ChattingRoom : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -55,6 +55,7 @@ class ChattingRoom : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
+
        /* viewAdapter = MyAdapter(messageList)
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
             // use this setting to improve performance if you know that changes
@@ -68,14 +69,12 @@ class ChattingRoom : AppCompatActivity() {
         }*/
         val intent = getIntent()
         var key = intent.extras?.getString("key")
-        ChatUpdate(key.toString())
-
         btnSend.setOnTouchListener { _: View, event: MotionEvent ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     btnSend.setBackgroundColor(Color.BLUE)
                     ChatAdd(key.toString())
-                    }
+                }
                 MotionEvent.ACTION_UP -> {
                     btnSend.setBackgroundColor(Color.parseColor("#ffffA500"))
                     editSend.setText("")
@@ -83,6 +82,7 @@ class ChattingRoom : AppCompatActivity() {
             }
             true
         }
+        ChatUpdate(key.toString())
         chatRef.addListenerForSingleValueEvent(object : ValueEventListener {
             //데이터 불러오는
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -137,7 +137,6 @@ class ChattingRoom : AppCompatActivity() {
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 // A new comment has been added, add it to the displayed list
-                var commentKey = dataSnapshot.key
                 var name: String = dataSnapshot.child("name").value.toString()
                 var message: String = dataSnapshot.child("text").value.toString()
                 messageList.add(Chat(message, name))
@@ -145,6 +144,7 @@ class ChattingRoom : AppCompatActivity() {
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
@@ -161,6 +161,11 @@ class ChattingRoom : AppCompatActivity() {
             }
         }
         chatRef.child(key.toString()).child("member").addChildEventListener(childEventListener)
+        Handler().postDelayed(Runnable {
+            run {
+                my_recycler_view.scrollToPosition(viewAdapter.itemCount-1)
+            }
+        },200)
     }
 
     fun ChatAdd(key: String) {
@@ -176,8 +181,8 @@ class ChattingRoom : AppCompatActivity() {
                     if(x.key.equals("name")){
                         name = x.value.toString()
                         TimeRef.child("name").setValue(name)//닉네임
-                        messageList.add(Chat(message,name))
-                        viewAdapter.notifyDataSetChanged()
+                        messageList.clear()
+                        ChatUpdate(key.toString())
                     }
                 }
             }
@@ -186,6 +191,11 @@ class ChattingRoom : AppCompatActivity() {
             }
         })
         TimeRef.child("text").setValue(message)//메세지
+        Handler().postDelayed(Runnable {
+            run {
+                my_recycler_view.scrollToPosition(viewAdapter.itemCount-1)
+            }
+        },200)
     }
 }
 class Chat(var message : String, var Nick : String)
