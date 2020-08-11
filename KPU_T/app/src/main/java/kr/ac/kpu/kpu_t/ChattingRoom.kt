@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.Menu
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -75,10 +76,9 @@ class ChattingRoom : AppCompatActivity() {
         }
         ChatUpdate(key.toString())
     }
-    override fun onPause() {
-        super.onPause()
-        messageList.clear()
-    }
+
+
+
     fun ChatBordSet(key: String){
         chatRef.addListenerForSingleValueEvent(object : ValueEventListener {
             //데이터 불러오는
@@ -156,11 +156,6 @@ class ChattingRoom : AppCompatActivity() {
             }
         }
         chatRef.child(key.toString()).child("member").addChildEventListener(childEventListener)
-        Handler().postDelayed(Runnable {
-            run {
-                my_recycler_view.scrollToPosition(viewAdapter.itemCount-1)
-            }
-        },200)
     }
 
     fun ChatAdd(key: String) {
