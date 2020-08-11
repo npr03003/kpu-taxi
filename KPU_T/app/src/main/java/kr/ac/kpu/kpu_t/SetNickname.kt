@@ -1,16 +1,20 @@
 package kr.ac.kpu.kpu_t
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_set_nickname.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.yesButton
 
 
 class SetNickname : AppCompatActivity() {
@@ -87,9 +91,9 @@ class SetNickname : AppCompatActivity() {
         btn_finish_setnickname.setOnClickListener {
             if(isgranted==1){
 
-                Toast.makeText(applicationContext,"설정이 완료되었습니다.",Toast.LENGTH_LONG).show()
-                val intent=Intent(this,Mypage::class.java)
-                startActivity(intent)
+                alert("닉네임이 변경되었습니다."){
+                    yesButton { finish() }
+                }.show()
 
             }
             else{

@@ -59,20 +59,6 @@
             </LinearLayout>
 
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_imageSetting"
-                app:layout_constraintTop_toBottomOf="@+id/Nickname"
-                app:layout_constraintBottom_toTopOf="@+id/layout_numberone"
-                app:layout_constraintStart_toEndOf="@+id/ProfileImage"
-                android:layout_marginBottom="40dp"
-                android:text="이미지 넣기"
-                android:textColor="#ffffff"
-                android:textSize="20sp"
-                android:background="@drawable/button_border"
-                />
-
 
 
             <TextView
@@ -99,6 +85,19 @@
                 app:layout_constraintStart_toEndOf="@+id/Nickname"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/layout_numberone"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_border"
+                android:drawableLeft="@drawable/ic_baseline_sync_24"
+                app:layout_constraintTop_toBottomOf="@+id/Nickname2"
+                app:layout_constraintStart_toEndOf="@+id/ProfileImage"
+                android:text="동기화"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/btn_sync"
                 />
 
 
@@ -211,9 +210,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_border"
                     android:textColor="#ffffff"
-                    android:drawableTop="@drawable/ic_person_outline_black_24dp"
-                    android:text="프로필 수정"
-                    android:id="@+id/btn_profilechange"
+                    android:drawableTop="@drawable/ic_baseline_image_50"
+                    android:text="이미지 넣기"
+                    android:id="@+id/btn_imageSetting"
                     />
 
                 <Button

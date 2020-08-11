@@ -6,6 +6,99 @@
     android:layout_height="match_parent"
     tools:context=".SetImage">
 
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/setImage_imageview"
+        android:background="@drawable/profile_border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:id="@+id/setImage_profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/no_image_camera_117dp"
+            android:layout_weight="8"
+            />
+        <ImageView
+            android:id="@+id/setImage_profile_image2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Image"
+            android:textStyle="italic"
+            android:id="@+id/setImage_textview_noimage"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:textColor="#ff0000"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/setImage_imageview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:id="@+id/setImage_textview"
+        android:text="알 수 없음"
+        android:gravity="center"
+        android:textSize="20sp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setImage_textview"
+        android:gravity="center"
+        >
+
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/setImage_btn_gallery"
+        android:text="갤러리 열기"
+        android:textColor="#ffffff"
+        android:background="@drawable/button_border"
+        android:textSize="30sp"
+        />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/setImage_btn_upload"
+            android:text="업로드 하기"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_border"
+            android:textSize="30sp"
+            android:layout_marginLeft="30dp"
+            />
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

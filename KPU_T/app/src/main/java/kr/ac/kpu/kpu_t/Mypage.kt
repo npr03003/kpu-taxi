@@ -2,29 +2,32 @@ package kr.ac.kpu.kpu_t
 
 
 
-import android.app.Activity
-import android.app.ProgressDialog
+
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mypage.*
-import java.io.InputStream
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 
 /**
@@ -33,57 +36,126 @@ import java.util.*
 class Mypage : Fragment() {
     private val multiplePermissionsCode = 100
     private val TAG : String? = MainActivity :: class.simpleName
-    private lateinit var mFirebaseStorage: FirebaseStorage
-
-
+    private  var mFirebaseStorage: FirebaseStorage=FirebaseStorage.getInstance()
+    private var Userfilename:String=""
+    private var isgetImage:Int=0 //0이면 이미지 없음, 1이면 이미지 있음
+    private val database = FirebaseDatabase.getInstance()
+    val Ref = database.getReference("user")
     val user = FirebaseAuth.getInstance().currentUser
+    val uid = user!!.uid.toString()
+
     private var filePath: Uri?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mypage, container, false)
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val uid = user!!.uid.toString()
-        val database = FirebaseDatabase.getInstance()
-        val Ref = database.getReference("user")
-        mFirebaseStorage= FirebaseStorage.getInstance()
-        var unknown:String="알수없음"
-
-
-
+    override fun onStart() {
+        super.onStart()
+        displayimage()
         //데이터받아옴
         //2020.08.06일에 남준이가 수정함 건들지 마셈
         Ref.addListenerForSingleValueEvent(object : ValueEventListener {//데이터 불러오는
         override fun onDataChange(snapshot: DataSnapshot)  {
 
-                Ref.child(uid).addListenerForSingleValueEvent(object :
-                    ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        for(x in snapshot.children) {
-                          if(x.key.equals("name")){
-                              var nickname333:String=x.value.toString()
-                              Nickname2.setText(nickname333)
-                          }
+            Ref.child(uid).addListenerForSingleValueEvent(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(x in snapshot.children) {
+                        if(x.key.equals("name")){
+                            var nickname333:String=x.value.toString()
+                            Nickname2.setText(nickname333)
+
                         }
                     }
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            })
+        }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        displayimage()
+        Ref.addListenerForSingleValueEvent(object : ValueEventListener {//데이터 불러오는
+        override fun onDataChange(snapshot: DataSnapshot)  {
+
+            Ref.child(uid).addListenerForSingleValueEvent(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(x in snapshot.children) {
+                        if(x.key.equals("name")){
+                            var nickname333:String=x.value.toString()
+                            Nickname2.setText(nickname333)
+
+                        }
                     }
-                })
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            })
         }
             override fun onCancelled(error: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
 
+    }
+
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+
+        var unknown:String="알수없음"
+
+
+
+        btn_sync.setOnClickListener{
+            displayimage()
+            //데이터받아옴
+            //2020.08.06일에 남준이가 수정함 건들지 마셈
+            Ref.addListenerForSingleValueEvent(object : ValueEventListener {//데이터 불러오는
+            override fun onDataChange(snapshot: DataSnapshot)  {
+
+                Ref.child(uid).addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for(x in snapshot.children) {
+                            if(x.key.equals("name")){
+                                var nickname333:String=x.value.toString()
+                                Nickname2.setText(nickname333)
+
+                            }
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+                })
+            }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            })
+
+            Toast.makeText(activity,"동기화 완료",Toast.LENGTH_LONG).show()
+        }
 
         //로그아웃
         //2020.08.05일에 남준이가 수정함 건들지 마셈
@@ -91,12 +163,6 @@ class Mypage : Fragment() {
             signout()
         }
 
-        //프로필 수정
-        //아직 수정 안했음
-        btn_profilechange.setOnClickListener {
-            val intent = Intent(activity, ProfileChange::class.java)
-            startActivity(intent)
-        }
 
         //문의하기
         //2020.08.05일에 남준이가 수정함 건들지 마셈
@@ -120,21 +186,25 @@ class Mypage : Fragment() {
             dlg3.show()
         }
 
-        //프로필수정
-        btn_profilechange.setOnClickListener {
-            //공백
-        }
 
         //공지사항
         btn_notice.setOnClickListener {
 
         }
 
-        //닉네임 설정
+        //이미지 넣기
+        btn_imageSetting.setOnClickListener{
+            val intent = Intent(activity, SetImage::class.java)
+            startActivity(intent)
+        }
+
+        //닉네임 설정 및 수정
         btn_setnickname.setOnClickListener {
             val intent = Intent(activity, SetNickname::class.java)
             startActivity(intent)
         }
+
+
 
     }
 
@@ -143,78 +213,25 @@ class Mypage : Fragment() {
         finish()
     }
 
-    //2020.08.07일에 남준이가 수정함 건들지 마셈
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            // Make sure the request was successful
-            if (resultCode == Activity.RESULT_OK) {
-                try {
-                    filePath=data!!.data
-                    // 선택한 이미지에서 비트맵 생성
-                    val in2: InputStream = context!!.contentResolver.openInputStream(data!!.data!!)!!
-                    val img = BitmapFactory.decodeStream(in2)
-                    in2!!.close()
-                    // 이미지 표시
-                    textview_noimage.visibility=View.GONE
-                    profile_image.visibility=View.GONE
-                    profile_image2.setImageBitmap(img)
-                    profile_image2.visibility=View.VISIBLE
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
 
-            }
-        }
+    fun displayimage(){
+        Userfilename=Nickname2.text.toString()
+        val storageRef:StorageReference=mFirebaseStorage.getReferenceFromUrl("gs://fir-113.appspot.com/")
+        storageRef.child(Userfilename).child("images.png").getBytes(java.lang.Long.MAX_VALUE)
+            .addOnSuccessListener(OnSuccessListener<ByteArray> { bytes ->
+                Log.d(TAG, "getBytes Success")
+                // Use the bytes to display the image
+                val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                profile_image.visibility=View.GONE
+                textview_noimage.visibility=View.GONE
+                profile_image2.setImageBitmap(bmp)
+                profile_image2.visibility=View.VISIBLE
+            }).addOnFailureListener(OnFailureListener {
+                Log.d(
+                    TAG,
+                    "getBytes Failed")
+            })
     }
-
-
-    //파일 업로드
-    private fun uploadFile(filepath22:Uri) {
-        //업로드할 파일이 있으면 수행
-        if (filepath22 != null) {
-            //업로드 진행 Dialog 보이기
-            val progressDialog = ProgressDialog(activity)
-            progressDialog.setTitle("업로드중...")
-            progressDialog.show()
-
-            //storage
-            val storage = FirebaseStorage.getInstance()
-
-            //Unique한 파일명을 만들자.
-            val formatter = SimpleDateFormat("yyyyMMHH_mmss")
-            val now = Date()
-            val filename = formatter.format(now) + ".png"
-            //storage 주소와 폴더 파일명을 지정해 준다.
-            val storageRef = storage.getReferenceFromUrl("gs://fir-113.appspot.com/")
-                .child("images/$filename")
-            //업로드 ㄱㄱ
-            storageRef.putFile(filepath22)
-                //성공시
-                .addOnSuccessListener {
-                    progressDialog.dismiss() //업로드 진행 Dialog 상자 닫기
-                    Toast.makeText(activity, "업로드 완료!", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                //실패시
-                .addOnFailureListener {
-                    progressDialog.dismiss()
-                    Toast.makeText(activity, "업로드 실패!", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                //진행중
-                .addOnProgressListener { taskSnapshot ->
-                    val progress =
-                        (100 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount).toDouble()//이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
-                    //dialog에 진행률을 퍼센트로 출력해 준다
-                    progressDialog.setMessage("Uploaded " + progress.toInt() + "% ...")
-                }
-        } else {
-            Toast.makeText(activity, "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT)
-                .show()
-        }
-    }
-
 
 
 
