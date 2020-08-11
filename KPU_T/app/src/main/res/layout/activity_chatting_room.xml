@@ -5,18 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChattingRoom">
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:cardBackgroundColor="#FBF0E9"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="10dp"
-        android:layout_margin="4dp">
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/roomText1"
                 android:layout_width="0dp"
@@ -24,23 +29,25 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="산기대 정문 갑니다"
+                android:text=""
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/roomText2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="경로 : 정왕역 -> 산기대"
+                android:text=""
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/roomText1"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,6 +55,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/roomText2">
+
                 <TextView
                     android:id="@+id/roomText3"
                     android:layout_width="wrap_content"
@@ -56,37 +64,41 @@
                     android:text="인원현황 : "
                     app:layout_constraintEnd_toStartOf="@id/roomOneImg"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <ImageView
                     android:id="@+id/roomOneImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_person_black2_24dp"
                     app:layout_constraintEnd_toStartOf="@id/roomTwoImg"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_person_black2_24dp" />
+
                 <ImageView
                     android:id="@+id/roomTwoImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_person_black_24dp"
                     app:layout_constraintEnd_toStartOf="@+id/roomThreeImg"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_person_black_24dp" />
+
                 <ImageView
                     android:id="@+id/roomThreeImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_person_black_24dp"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toStartOf="@+id/roomFourImg"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_person_black_24dp" />
+
                 <ImageView
                     android:id="@+id/roomFourImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:src="@drawable/ic_person_black_24dp"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_person_black_24dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -96,27 +108,26 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#FADDCA"
-        app:layout_constraintBottom_toTopOf="@+id/Edit_send"
+        app:layout_constraintBottom_toTopOf="@+id/editSend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        android:padding="5dp"/>
     <ImageButton
         android:layout_width="45dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/btn_send"
+        android:id="@+id/btnSend"
         android:textSize="20sp"
         android:background="#ffffA500"
-        android:src="@drawable/ic_baseline_send_24"
-        />
+        app:srcCompat="@drawable/ic_baseline_send_24" />
     <EditText
-        android:id="@+id/Edit_send"
+        android:id="@+id/editSend"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_send"
-        />
+        app:layout_constraintEnd_toStartOf="@+id/btnSend" />
 </androidx.constraintlayout.widget.ConstraintLayout>

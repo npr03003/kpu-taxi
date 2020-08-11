@@ -3,23 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
+        android:id="@+id/tvChat_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/tvChat"
+        app:layout_constraintBottom_toTopOf="@+id/cardOther"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/tvChat_email"
         app:layout_constraintStart_toStartOf="parent" />
-    <TextView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardOther"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/tvChat"
-        android:background="@drawable/chat_bubble"
-        android:padding="10dp"
+        app:cardCornerRadius="15dp"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="5dp" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/tvChat"
+            android:padding="8dp" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
