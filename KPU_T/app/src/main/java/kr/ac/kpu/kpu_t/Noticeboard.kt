@@ -84,10 +84,10 @@ class Noticeboard : Fragment() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        loadBoard()
 
+    override fun onResume() {
+        super.onResume()
+        loadBoard()
     }
 
 
