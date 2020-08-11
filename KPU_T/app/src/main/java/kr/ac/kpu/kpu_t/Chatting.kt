@@ -165,6 +165,7 @@ class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>)
 
         val textTitle = view.findViewById<TextView>(R.id.text1)
         val textpath = view.findViewById<TextView>(R.id.text2)
+        val twoImg = view.findViewById<ImageView>(R.id.twoImg)
         val threeImg = view.findViewById<ImageView>(R.id.threeImg)
         val fourImg = view.findViewById<ImageView>(R.id.fourImg)
         val ChatRoom = chatList[position]
@@ -173,11 +174,35 @@ class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>)
         if(ChatRoom.max==4){
             threeImg.visibility = View.VISIBLE
             fourImg.visibility = View.VISIBLE
+            if(ChatRoom.count==4){
+                fourImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                threeImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
+            else if(ChatRoom.count==3){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                threeImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
+            else if(ChatRoom.count==2){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
         }
         else if(ChatRoom.max==3){
             threeImg.visibility = View.VISIBLE
+            if(ChatRoom.count==3){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                threeImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
+            else if(ChatRoom.count==2){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
         }
-        return  view
+        else if(ChatRoom.max==2){
+            if(ChatRoom.count==2){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
+        }
+            return  view
     }
 
     override fun getItem(position: Int): Any {
