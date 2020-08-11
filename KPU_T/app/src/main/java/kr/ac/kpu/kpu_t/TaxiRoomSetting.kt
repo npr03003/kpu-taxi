@@ -51,7 +51,6 @@ class TaxiRoomSetting : AppCompatActivity() {
         val myRef = database.getReference("chat")
         val key = myRef.push().key
         val postVal : HashMap<String, Any> = HashMap()
-        postVal["member"] = ""
         postVal["max"] = max
         postVal["count"] = 1
         postVal["title"] = title
@@ -96,11 +95,8 @@ class TaxiRoomSetting : AppCompatActivity() {
                     val value = dataSnapshot.value.toString()
                     Log.d("gender added", "success")
                     Log.d("gender is", value)
-                    chatRef.child(key).child("member").child(uid).setValue(value)
                 }
-
                 override fun onCancelled(error: DatabaseError) {
-                    Log.d("member ID added", "failed")
                 }
             })
         alert("채팅방이 개설되었습니다."){
