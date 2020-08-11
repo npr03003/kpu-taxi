@@ -14,7 +14,7 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "kr.ac.kpu.kpu_t"
-        minSdkVersion 19
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

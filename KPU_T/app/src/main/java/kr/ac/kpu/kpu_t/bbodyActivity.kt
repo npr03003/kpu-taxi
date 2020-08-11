@@ -14,6 +14,8 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_bbody.*
 import java.text.SimpleDateFormat
 import java.util.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -74,9 +76,7 @@ class bbodyActivity : AppCompatActivity() {
         boardRef.child(boardid).addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(i in snapshot.children){
-                    if(i.key.equals("reply")){
-                        viewreply(boardid)
-                    } else if(i.key.equals("title")){
+                    if(i.key.equals("title")){
                         boardtitleTV.text = i.value.toString()
                     } else if(i.key.equals("start")){
                         bdstartTV.text = "출발: "+i.value.toString()
@@ -104,9 +104,9 @@ class bbodyActivity : AppCompatActivity() {
 
 
     private fun savereply(boardid:String){
-        val c = Calendar.getInstance()
-        val date = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-        val time = date.format(c.time)
+        val c = LocalDateTime.now()
+        val date = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val time = c.format(date)
         boardRef.child(boardid).addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val postVal : HashMap<String, Any> = HashMap()
