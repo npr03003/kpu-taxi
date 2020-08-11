@@ -80,6 +80,7 @@ class carfull_Board_setting : AppCompatActivity() {
         postVal["body"] = body
         postVal["maker"] = maker
         postVal["reply"] = ""
+        postVal["replynum"] = 1
 
 
         myRef.child(key!!).setValue(postVal)

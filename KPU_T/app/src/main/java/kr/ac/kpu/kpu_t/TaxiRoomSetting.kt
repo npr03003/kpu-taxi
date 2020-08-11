@@ -49,6 +49,9 @@ class TaxiRoomSetting : AppCompatActivity() {
     private fun chatroom(title:String , start:String, end:String, max:Int) : String{
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("chat")
+        val userRef = database.getReference("user")
+        val user = FirebaseAuth.getInstance()
+        val uid = user.uid.toString()
         val key = myRef.push().key
         val postVal : HashMap<String, Any> = HashMap()
         postVal["max"] = max
@@ -56,6 +59,7 @@ class TaxiRoomSetting : AppCompatActivity() {
         postVal["title"] = title
         postVal["start"] = start
         postVal["end"]= end
+        postVal["member"]
         myRef.child(key!!).setValue(postVal)
         return key
     }

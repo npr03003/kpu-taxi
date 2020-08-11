@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import org.jetbrains.anko.startActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -39,7 +39,10 @@ class Noticeboard : Fragment() {
         val intent = Intent(activity,carfull_Board_setting::class.java)
         createFab.setOnClickListener { startActivity(intent) }
         carfullView.setOnItemClickListener { adapterView, view, i, l ->
-
+            val boardurl = Intent(activity,bbodyActivity::class.java)
+            boardurl.putExtra("id",boardlist.get(i).boardid)
+            Log.d("carfullboard id=",boardlist.get(i).boardid)
+            startActivity(boardurl)
         }
     }
     private fun loadBoard(){
@@ -54,8 +57,7 @@ class Noticeboard : Fragment() {
                             var st :String=""
                             var ed :String=""
                             var tt:String=""
-                            var mkr:String=""
-                            id = i.value.toString()
+                            id = i.key.toString()
                             for(j in snapshot.children){
                                 if(j.key.equals("start")){
                                     st = j.value.toString()
@@ -63,11 +65,9 @@ class Noticeboard : Fragment() {
                                     ed = j.value.toString()
                                 } else if(j.key.equals("title")){
                                     tt = j.value.toString()
-                                } else if(j.key.equals("maker")){
-                                    mkr = j.value.toString()
                                 }
                             }
-                            boardlist.add(carfullBoard(tt,st,ed,mkr,id))
+                            boardlist.add(carfullBoard(tt,st,ed,id))
                             carfullView.adapter = boardAdapter
                         }
 
@@ -94,7 +94,7 @@ class Noticeboard : Fragment() {
 }
 
 
-class carfullBoard(var title:String, var start:String, var end:String, var maker:String, var boardid:String)
+class carfullBoard(var title:String, var start:String, var end:String,var boardid:String)
 
 
 class boardAdapter(val context:Context, val boardlist: ArrayList<carfullBoard>):BaseAdapter(){
@@ -104,8 +104,6 @@ class boardAdapter(val context:Context, val boardlist: ArrayList<carfullBoard>):
         val titleboard = view.findViewById<TextView>(R.id.boardTitle)
         val routeboard = view.findViewById<TextView>(R.id.boardroute)
         val boardnum = boardlist[position]
-        val boardowner = boardnum.maker
-        val boardid = boardnum.boardid
         titleboard.text = boardnum.title
         routeboard.text = "경로: "+boardnum.start+" -> "+boardnum.end
 
