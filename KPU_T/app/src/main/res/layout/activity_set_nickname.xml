@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SetNickname"
+    android:padding="20dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="닉네임 설정/수정"
+        android:textColor="#ffffa500"
+        android:textSize="20sp"
+        />
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="닉네임"
+        android:textColor="#ffffa500"
+        android:id="@+id/Edit_nickname"
+        />
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="중복확인"
+        android:id="@+id/btn_checkoverlap"
+        />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용할 수 있는 닉네임입니다."
+        android:visibility="gone"
+        android:id="@+id/textview_result_can"
+        android:textColor="#0000ff"
+        />
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용할 수 없는 닉네임입니다."
+        android:visibility="gone"
+        android:id="@+id/textview_result_cant"
+        android:textColor="#ff0000"
+        />
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="설정완료"
+        android:textSize="20sp"
+        android:id="@+id/btn_finish_setnickname"
+        />
+
+
+
+
+
+
+</LinearLayout>

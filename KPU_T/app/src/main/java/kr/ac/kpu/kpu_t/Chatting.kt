@@ -7,19 +7,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_chatting.*
-
-
-
-
 
 class Chatting : Fragment() {
     val database = FirebaseDatabase.getInstance()
@@ -35,27 +31,30 @@ class Chatting : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
         val intent = Intent(activity, TaxiRoomSetting::class.java)
-
         plusFab.setOnClickListener { startActivity(intent) }
+        listView.setOnItemClickListener { adapterView, view, i, l ->
+            val cintent = Intent(activity, ChattingRoom::class.java)
+            cintent.putExtra("key",chatList.get(i).key)
+            startActivity(cintent)
+        }
     }
-
     override fun onStart() {//fragment 생명주기 onStart
         super.onStart()
         val chatAdapter = context?.let { ChatRoomAdapter(it, chatList) }
         chatRef.addListenerForSingleValueEvent(object :ValueEventListener{//데이터 불러오는
             override fun onDataChange(snapshot: DataSnapshot)  {
-                chatList.clear()//arraylist 초기화
-                for(x in snapshot.children){
+            chatList.clear()//arraylist 초기화
+            var k : String=""
+            var c : Int = 0
+            var e : String =""
+            var m : Int = 0
+            var s : String =""
+            var t : String =""
+            for(x in snapshot.children){
                     chatRef.child(x.key.toString()).addListenerForSingleValueEvent(object :ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
-                            var c : Int = 0
-                            var e : String =""
-                            var m : Int = 0
-                            var s : String =""
-                            var t : String =""
+                            k = x.key.toString()
                             for(y in snapshot.children) {
                                 if (y.key.equals("count")) {
                                     c = y.value.toString().toInt()
@@ -71,7 +70,7 @@ class Chatting : Fragment() {
                                     t = y.value.toString()
                                 }
                             }
-                            chatList.add(ChatRoom(t, s, e, m, c))
+                            chatList.add(ChatRoom(k, t, s, e, m, c))
                             listView.adapter = chatAdapter
                         }
 
@@ -92,9 +91,8 @@ class Chatting : Fragment() {
     }
 
 
-
 }
-class ChatRoom(var title : String,var start : String,var end : String,var max : Int,var count : Int)
+class ChatRoom(var key : String, var title : String,var start : String,var end : String,var max : Int,var count : Int)
 
 class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>) : BaseAdapter() {
     override fun getView(position: Int, p1: View?, p2: ViewGroup?): View {
@@ -121,8 +119,8 @@ class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>)
         return chatList[position]
     }
 
-    override fun getItemId(p0: Int): Long {
-        return 0
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     override fun getCount(): Int {

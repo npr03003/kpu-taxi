@@ -31,6 +31,7 @@ class TaxiMain : AppCompatActivity() {
         images.add(R.drawable.ic_home_orange_24dp)
         for (i in 0..2) tabs_main.getTabAt(i)!!.setIcon(images[i])
 
+
     }
 
     override fun onBackPressed() {
@@ -46,6 +47,6 @@ class TaxiMain : AppCompatActivity() {
         else{
         finishAffinity()
         exitProcess(0)
-    }
+        }
     }
 }
