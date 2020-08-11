@@ -9,10 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chatting_room.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -137,24 +134,33 @@ class ChattingRoom : AppCompatActivity() {
     }
 
     fun ChatUpdate(key: String) {
-        chatRef.child(key.toString()).child("member")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    messageList.clear()
-                    var name: String
-                    var message: String
-                    for (x in snapshot.children) {
-                        name = x.child("name").value.toString()
-                        message = x.child("text").value.toString()
-                        messageList.add(Chat(message, name))
-                        viewAdapter.notifyDataSetChanged()
-                    }
-                }
+        val childEventListener = object : ChildEventListener {
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                // A new comment has been added, add it to the displayed list
+                var commentKey = dataSnapshot.key
+                var name: String = dataSnapshot.child("name").value.toString()
+                var message: String = dataSnapshot.child("text").value.toString()
+                messageList.add(Chat(message, name))
+                viewAdapter.notifyDataSetChanged()
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-            })
+            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(
+                    applicationContext, "Failed to load comments.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        chatRef.child(key.toString()).child("member").addChildEventListener(childEventListener)
     }
 
     fun ChatAdd(key: String) {
