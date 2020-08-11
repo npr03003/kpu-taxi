@@ -2,8 +2,11 @@ package kr.ac.kpu.kpu_t
 
 
 
+import android.app.Activity
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +20,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_mypage.*
+import java.io.InputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -26,9 +33,11 @@ import kotlinx.android.synthetic.main.fragment_mypage.*
 class Mypage : Fragment() {
     private val multiplePermissionsCode = 100
     private val TAG : String? = MainActivity :: class.simpleName
+    private lateinit var mFirebaseStorage: FirebaseStorage
 
 
     val user = FirebaseAuth.getInstance().currentUser
+    private var filePath: Uri?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +54,9 @@ class Mypage : Fragment() {
         val uid = user!!.uid.toString()
         val database = FirebaseDatabase.getInstance()
         val Ref = database.getReference("user")
+        mFirebaseStorage= FirebaseStorage.getInstance()
         var unknown:String="알수없음"
+
 
 
         //데이터받아옴
@@ -93,6 +104,22 @@ class Mypage : Fragment() {
             questionStart()
         }
 
+        //이미지 넣기
+        //2020.08.07 수정
+        btn_imageSetting.setOnClickListener {
+
+            val intent = Intent()
+            intent.setType("image/*")
+            intent.setAction(Intent.ACTION_GET_CONTENT)
+            startActivityForResult(intent,1)
+
+        }
+
+        btn_uploadimage.setOnClickListener {
+
+          uploadFile(filePath!!)
+        }
+
         //계정삭제
         //2020.08.05일에 남준이가 수정함 건들지 마셈
         btn_delete.setOnClickListener {
@@ -130,6 +157,81 @@ class Mypage : Fragment() {
     fun finish(){
         finish()
     }
+
+    //2020.08.07일에 남준이가 수정함 건들지 마셈
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    filePath=data!!.data
+                    // 선택한 이미지에서 비트맵 생성
+                    val in2: InputStream = context!!.contentResolver.openInputStream(data!!.data!!)!!
+                    val img = BitmapFactory.decodeStream(in2)
+                    in2!!.close()
+                    // 이미지 표시
+                    textview_noimage.visibility=View.GONE
+                    profile_image.visibility=View.GONE
+                    profile_image2.setImageBitmap(img)
+                    profile_image2.visibility=View.VISIBLE
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
+    }
+
+
+    //파일 업로드
+    private fun uploadFile(filepath22:Uri) {
+        //업로드할 파일이 있으면 수행
+        if (filepath22 != null) {
+            //업로드 진행 Dialog 보이기
+            val progressDialog = ProgressDialog(activity)
+            progressDialog.setTitle("업로드중...")
+            progressDialog.show()
+
+            //storage
+            val storage = FirebaseStorage.getInstance()
+
+            //Unique한 파일명을 만들자.
+            val formatter = SimpleDateFormat("yyyyMMHH_mmss")
+            val now = Date()
+            val filename = formatter.format(now) + ".png"
+            //storage 주소와 폴더 파일명을 지정해 준다.
+            val storageRef = storage.getReferenceFromUrl("gs://fir-113.appspot.com/")
+                .child("images/$filename")
+            //업로드 ㄱㄱ
+            storageRef.putFile(filepath22)
+                //성공시
+                .addOnSuccessListener {
+                    progressDialog.dismiss() //업로드 진행 Dialog 상자 닫기
+                    Toast.makeText(activity, "업로드 완료!", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                //실패시
+                .addOnFailureListener {
+                    progressDialog.dismiss()
+                    Toast.makeText(activity, "업로드 실패!", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                //진행중
+                .addOnProgressListener { taskSnapshot ->
+                    val progress =
+                        (100 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount).toDouble()//이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
+                    //dialog에 진행률을 퍼센트로 출력해 준다
+                    progressDialog.setMessage("Uploaded " + progress.toInt() + "% ...")
+                }
+        } else {
+            Toast.makeText(activity, "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+
+
 
     fun delete(){
 

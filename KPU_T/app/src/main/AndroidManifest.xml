@@ -4,7 +4,7 @@
     package="kr.ac.kpu.kpu_t">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
