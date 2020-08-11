@@ -1,7 +1,10 @@
 package kr.ac.kpu.kpu_t
 
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +14,7 @@ import android.widget.*
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -21,6 +25,9 @@ class Chatting : Fragment() {
     val database = FirebaseDatabase.getInstance()
     val chatRef = database.getReference("chat")
     var chatList = arrayListOf<ChatRoom>()
+    val userRef = database.getReference("user")
+    val user = FirebaseAuth.getInstance()
+    val uid = user.uid.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,13 +41,71 @@ class Chatting : Fragment() {
         val intent = Intent(activity, TaxiRoomSetting::class.java)
         plusFab.setOnClickListener { startActivity(intent) }
         listView.setOnItemClickListener { adapterView, view, i, l ->
-            val cintent = Intent(activity, ChattingRoom::class.java)
-            cintent.putExtra("key",chatList.get(i).key)
-            startActivity(cintent)
+            var cKey = chatList.get(i).key
+            var cCount = chatList.get(i).count
+            userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var chatkey :String
+                    chatkey=snapshot.child("chatkey").value as String
+                    if(chatkey==cKey)
+                    {
+                        val cintent = Intent(activity, ChattingRoom::class.java)
+                        cintent.putExtra("key",cKey)
+                        startActivity(cintent)
+                    }
+                    else{
+                        var dialog = AlertDialog.Builder(activity)
+                        dialog.setMessage("채팅방에 입장하시겠습니까?")
+                        var dialog_listener = object : DialogInterface.OnClickListener{
+                            override fun onClick(p0: DialogInterface?, p1: Int) {
+                                when(p1){
+                                    DialogInterface.BUTTON_POSITIVE-> {
+                                        userRef.child(uid).child("chatkey").setValue(cKey)
+                                        chatRef.child(chatkey).child("count").setValue(cCount+1)
+                                        val cintent = Intent(activity, ChattingRoom::class.java)
+                                        cintent.putExtra("key", cKey)
+                                        startActivity(cintent)
+                                    }
+                                    DialogInterface.BUTTON_NEGATIVE-> {
+                                        null
+                                    }
+                                }
+                            }
+                        }
+                        dialog.setPositiveButton("입장",dialog_listener)
+                        dialog.setNegativeButton("취소",dialog_listener)
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
         }
     }
     override fun onStart() {//fragment 생명주기 onStart
         super.onStart()
+        userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var chatkey :String
+                chatkey=snapshot.child("chatkey").value as String
+                chatRef.addListenerForSingleValueEvent(object :ValueEventListener{
+                    @SuppressLint("RestrictedApi")
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for(x in snapshot.children){
+                            if (x.key.toString()==chatkey){
+                                plusFab.visibility = View.INVISIBLE
+                            }
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
         val chatAdapter = context?.let { ChatRoomAdapter(it, chatList) }
         chatRef.addListenerForSingleValueEvent(object :ValueEventListener{//데이터 불러오는
             override fun onDataChange(snapshot: DataSnapshot)  {
@@ -100,6 +165,7 @@ class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>)
 
         val textTitle = view.findViewById<TextView>(R.id.text1)
         val textpath = view.findViewById<TextView>(R.id.text2)
+        val twoImg = view.findViewById<ImageView>(R.id.twoImg)
         val threeImg = view.findViewById<ImageView>(R.id.threeImg)
         val fourImg = view.findViewById<ImageView>(R.id.fourImg)
         val ChatRoom = chatList[position]
@@ -108,11 +174,35 @@ class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>)
         if(ChatRoom.max==4){
             threeImg.visibility = View.VISIBLE
             fourImg.visibility = View.VISIBLE
+            if(ChatRoom.count==4){
+                fourImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                threeImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
+            else if(ChatRoom.count==3){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                threeImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
+            else if(ChatRoom.count==2){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
         }
         else if(ChatRoom.max==3){
             threeImg.visibility = View.VISIBLE
+            if(ChatRoom.count==3){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+                threeImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
+            else if(ChatRoom.count==2){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
         }
-        return  view
+        else if(ChatRoom.max==2){
+            if(ChatRoom.count==2){
+                twoImg.setImageResource(R.drawable.ic_person_black2_24dp)
+            }
+        }
+            return  view
     }
 
     override fun getItem(position: Int): Any {
