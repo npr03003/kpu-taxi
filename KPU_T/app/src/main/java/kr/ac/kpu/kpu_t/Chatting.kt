@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_chatting.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.yesButton
 
 class Chatting : Fragment() {
     val database = FirebaseDatabase.getInstance()
@@ -54,26 +56,22 @@ class Chatting : Fragment() {
                         startActivity(cintent)
                     }
                     else{
-                        var dialog = AlertDialog.Builder(activity)
-                        dialog.setMessage("채팅방에 입장하시겠습니까?")
-                        var dialog_listener = object : DialogInterface.OnClickListener{
-                            override fun onClick(p0: DialogInterface?, p1: Int) {
-                                when(p1){
-                                    DialogInterface.BUTTON_POSITIVE-> {
-                                        userRef.child(uid).child("chatkey").setValue(cKey)
-                                        chatRef.child(chatkey).child("count").setValue(cCount+1)
-                                        val cintent = Intent(activity, ChattingRoom::class.java)
-                                        cintent.putExtra("key", cKey)
-                                        startActivity(cintent)
-                                    }
-                                    DialogInterface.BUTTON_NEGATIVE-> {
-                                        null
-                                    }
-                                }
-                            }
-                        }
-                        dialog.setPositiveButton("입장",dialog_listener)
-                        dialog.setNegativeButton("취소",dialog_listener)
+                        /*alert("채팅방이 개설되었습니다."){
+                            yesButton { finish() }
+                        }.show()*/
+                        var dialog = activity?.let{AlertDialog.Builder(it)}
+                        dialog!!.setMessage("채팅방에 입장하시겠습니까?")
+                        dialog.setPositiveButton("입장",DialogInterface.OnClickListener{
+                            dialog, which ->
+                            userRef.child(uid).child("chatkey").setValue(cKey)
+                            chatRef.child(cKey).child("count").setValue(cCount+1)
+                            val cintent = Intent(activity, ChattingRoom::class.java)
+                            cintent.putExtra("key", cKey)
+                            startActivity(cintent)
+                        })
+                        dialog.setNegativeButton("취소",DialogInterface.OnClickListener{dialog,
+                        which-> null})
+                        dialog.show()
                     }
                 }
                 override fun onCancelled(error: DatabaseError) {
