@@ -49,7 +49,7 @@ class TaxiMain : AppCompatActivity() {
         return when (item.itemId){
             R.id.deleteMenu -> {
                 DeleteRoom()
-                onPause()
+                onStop()
                 recreate()
                 true
             }

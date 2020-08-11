@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -21,6 +22,9 @@ class Chatting : Fragment() {
     val database = FirebaseDatabase.getInstance()
     val chatRef = database.getReference("chat")
     var chatList = arrayListOf<ChatRoom>()
+    val userRef = database.getReference("user")
+    val user = FirebaseAuth.getInstance()
+    val uid = user.uid.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +45,27 @@ class Chatting : Fragment() {
     }
     override fun onStart() {//fragment 생명주기 onStart
         super.onStart()
+        userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var chatkey :String
+                chatkey=snapshot.child("chatkey").value as String
+                chatRef.addListenerForSingleValueEvent(object :ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for(x in snapshot.children){
+                            if (x.key.toString()==chatkey){
+                                plusFab.visibility = View.INVISIBLE
+                            }
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
         val chatAdapter = context?.let { ChatRoomAdapter(it, chatList) }
         chatRef.addListenerForSingleValueEvent(object :ValueEventListener{//데이터 불러오는
             override fun onDataChange(snapshot: DataSnapshot)  {
