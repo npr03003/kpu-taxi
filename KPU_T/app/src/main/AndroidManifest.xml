@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -13,7 +14,10 @@
         android:roundIcon="@mipmap/taxi"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChattingRoom" android:parentActivityName=".TaxiMain"/>
+        <activity android:name=".SetImage"></activity>
+        <activity
+            android:name=".ChattingRoom"
+            android:parentActivityName=".TaxiMain" />
         <activity android:name=".SetNickname" />
         <activity android:name=".GongG" />
         <activity android:name=".ProfileChange" />

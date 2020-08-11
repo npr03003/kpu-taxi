@@ -104,21 +104,6 @@ class Mypage : Fragment() {
             questionStart()
         }
 
-        //이미지 넣기
-        //2020.08.07 수정
-        btn_imageSetting.setOnClickListener {
-
-            val intent = Intent()
-            intent.setType("image/*")
-            intent.setAction(Intent.ACTION_GET_CONTENT)
-            startActivityForResult(intent,1)
-
-        }
-
-        btn_uploadimage.setOnClickListener {
-
-          uploadFile(filePath!!)
-        }
 
         //계정삭제
         //2020.08.05일에 남준이가 수정함 건들지 마셈
