@@ -142,6 +142,8 @@ class Mypage : Fragment() {
         //공지사항
         btn_notice.setOnClickListener {
 
+            val intent = Intent(activity, GongG::class.java)
+            startActivity(intent)
         }
 
         //이미지 넣기

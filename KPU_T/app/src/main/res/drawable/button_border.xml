@@ -14,10 +14,10 @@
         android:topRightRadius="15dp" />
     <!-- 테두리 내부 여백 설정 -->
     <padding
-        android:bottom="8dp"
-        android:left="8dp"
-        android:right="8dp"
-        android:top="8dp" />
+        android:bottom="12dp"
+        android:left="12dp"
+        android:right="12dp"
+        android:top="12dp" />
 
     <!-- 테두리 설정: 두께, 색상 -->
     <stroke
