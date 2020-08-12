@@ -1,5 +1,6 @@
 package kr.ac.kpu.kpu_t
 
+import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
@@ -89,6 +90,13 @@ class Main_Activity1 : AppCompatActivity() {
                         //updateUI(user)
                         if (user != null) {
                             if (user.isEmailVerified) {
+
+                                //sharedpreference
+                                val sharedPref = getSharedPreferences("shared",Context.MODE_PRIVATE)
+                                with (sharedPref.edit()) {
+                                    putString("email",email)
+                                    commit()
+                                }
                                 startActivity<TaxiMain>("auto" to autoLogin.isChecked)
                             } else {
                                 Toast.makeText(this, "메일을 인증하여 주세요.", Toast.LENGTH_SHORT).show()

@@ -2,6 +2,7 @@ package kr.ac.kpu.kpu_t
 
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -40,6 +41,10 @@ class SetImage : AppCompatActivity() {
     val uid = user!!.uid.toString()
     val database = FirebaseDatabase.getInstance()
     val Ref = database.getReference("user")
+    private var stEmail:String=""
+
+
+
 
     private var filePath: Uri? = null
     private var filename:String=""
@@ -48,14 +53,16 @@ class SetImage : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        setImage_displayimage()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_image)
 
-
+        val sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE)
+        stEmail= sharedPref.getString("email","").toString()
+        Log.d(TAG,"stEmail : "+stEmail)
 
 
 
@@ -70,7 +77,7 @@ class SetImage : AppCompatActivity() {
 
         }
 
-        setImage_displayimage()
+        //setImage_displayimage()
         //파이어베이스 스토리지 업로드
         setImage_btn_upload.setOnClickListener{
 
@@ -129,7 +136,7 @@ class SetImage : AppCompatActivity() {
         }
 
     fun setImage_displayimage(){
-        userfilename=setImage_textview.text.toString()
+        userfilename=stEmail
         val storageRef: StorageReference =mFirebaseStorage.getReferenceFromUrl("gs://fir-113.appspot.com/")
         storageRef.child(userfilename).child("images.png").getBytes(java.lang.Long.MAX_VALUE)
             .addOnSuccessListener(OnSuccessListener<ByteArray> { bytes ->
@@ -144,7 +151,7 @@ class SetImage : AppCompatActivity() {
                 Log.d(
                     TAG,
                     "getBytes Failed")
-            })
+             })
     }
 
 
@@ -161,7 +168,7 @@ class SetImage : AppCompatActivity() {
             //Unique한 파일명을 만들자.
             val formatter = SimpleDateFormat("yyyyMMHH_mmss")
             val now = Date()
-            userfilename=setImage_textview.text.toString()+"/"
+            userfilename=stEmail+"/"
             filename= userfilename+formatter.format(now).toString() + ".png"
             filename2=userfilename+"images.png"
 

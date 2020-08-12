@@ -3,6 +3,7 @@ package kr.ac.kpu.kpu_t
 
 
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
@@ -44,6 +45,7 @@ class Mypage : Fragment() {
     val user = FirebaseAuth.getInstance().currentUser
     val uid = user!!.uid.toString()
     private var user2222:String=""
+    private var stEmail:String=""
 
     private var filePath: Uri?=null
 
@@ -51,6 +53,10 @@ class Mypage : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val sharedPref = activity?.getSharedPreferences("shared", Context.MODE_PRIVATE)
+        stEmail= sharedPref!!.getString("email","").toString()
+        Log.d(TAG,"stEmail : "+stEmail)
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mypage, container, false)
@@ -163,7 +169,7 @@ class Mypage : Fragment() {
 
 
     fun displayimage(){
-        Userfilename=Nickname2.text.toString()
+        Userfilename=stEmail
         val storageRef:StorageReference=mFirebaseStorage.getReferenceFromUrl("gs://fir-113.appspot.com/")
         storageRef.child(Userfilename).child("images.png").getBytes(java.lang.Long.MAX_VALUE)
             .addOnSuccessListener(OnSuccessListener<ByteArray> { bytes ->
