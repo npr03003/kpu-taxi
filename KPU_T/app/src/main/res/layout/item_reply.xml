@@ -14,7 +14,7 @@
         android:layout_marginBottom="8dp"
         android:text="닉네임이들어가요"
         android:gravity="center"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,11 +37,10 @@
 
     <Button
         android:id="@+id/replydeletebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="댓글삭제"
-        android:textSize="14sp"
-        android:background="@drawable/round"
+        android:layout_width="32dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/deletereply"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
