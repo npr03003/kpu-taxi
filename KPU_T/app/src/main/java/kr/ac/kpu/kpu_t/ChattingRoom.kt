@@ -32,45 +32,46 @@ class ChattingRoom : AppCompatActivity() {
     val user = FirebaseAuth.getInstance()
     val uid = user.uid.toString()
     var messageList = arrayListOf<Chat>()
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatting_room)
         setTitle("채팅")
-        var actionBar = actionBar
         actionBar?.run {
             setDisplayHomeAsUpEnabled(true)
         }
         var intent = getIntent()
         var key = intent.extras?.getString("key")
+        var name = intent.extras?.getString("name")
         ChatBordSet(key.toString())
-        ChatUpdate(key.toString())
-        userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var name :String
-                name=snapshot.child("name").value as String
-                viewManager = LinearLayoutManager(this@ChattingRoom)
-                viewAdapter = MyAdapter(messageList,name)
-                recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
-                    // use this setting to improve performance if you know that changes
-                    // in content do not change the layout size of the RecyclerView
-                    setHasFixedSize(true)
-                    // use a linear layout manager
-                    layoutManager = viewManager
-
-                    // specify an viewAdapter (see also next example)
-                    adapter = viewAdapter
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-
+        viewManager = LinearLayoutManager(this)
+        viewAdapter = MyAdapter(messageList,name.toString())
+        recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
+        ChatUpdate(key.toString(),name.toString())
+        ChatChange(key.toString(),name.toString())
         btnSend.setOnTouchListener { _: View, event: MotionEvent ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     btnSend.setBackgroundColor(Color.BLUE)
-                    ChatAdd(key.toString())
+                    var c = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        LocalDateTime.now()
+                    } else {
+                        TODO("VERSION.SDK_INT < O")
+                    }
+                    var dateformat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    } else {
+                        TODO("VERSION.SDK_INT < O")
+                    }
+                    val message = editSend.text.toString()
+                    var datetime = c.format(dateformat)
+                    var TimeRef = chatRef.child(key.toString()).child("member").child(datetime.toString())
+                    TimeRef.child("name").setValue(name)
+                    TimeRef.child("text").setValue(message)
                 }
                 MotionEvent.ACTION_UP -> {
                     btnSend.setBackgroundColor(Color.parseColor("#ffffA500"))
@@ -79,6 +80,45 @@ class ChattingRoom : AppCompatActivity() {
             }
             true
         }
+    }
+    fun ChatUpdate(key:String,name:String){
+        val cL = object : ChildEventListener {
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                var message: String = dataSnapshot.child("text").value.toString()
+                var cname: String = dataSnapshot.child("name").value.toString()
+                if(message=="null"){}
+                else{ messageList.add(Chat(message, cname))}
+                Handler().postDelayed(Runnable {
+                    run {
+                        recyclerView.scrollToPosition(viewAdapter.itemCount-1)
+                    }
+                },1)
+            }
+            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
+            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onCancelled(databaseError: DatabaseError) {}
+        }
+        chatRef.child(key).child("member").addChildEventListener(cL)
+    }
+    fun ChatChange(key:String,name:String){
+        val cL = object : ChildEventListener {
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                var message: String = dataSnapshot.child("text").value.toString()
+                var cname: String = dataSnapshot.child("name").value.toString()
+                messageList.add(Chat(message, cname))
+                Handler().postDelayed(Runnable {
+                    run {
+                        recyclerView.scrollToPosition(viewAdapter.itemCount-1)
+                    }
+                },1)
+            }
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
+            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onCancelled(databaseError: DatabaseError) {}
+        }
+        chatRef.child(key).child("member").addChildEventListener(cL)
     }
     fun ChatBordSet(key: String){
         chatRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -141,75 +181,6 @@ class ChattingRoom : AppCompatActivity() {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
-    }
-    fun ChatUpdate(key: String) {
-        val childEventListener = object : ChildEventListener {
-            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
-                // A new comment has been added, add it to the displayed list
-                var name: String = dataSnapshot.child("name").value.toString()
-                var message: String = dataSnapshot.child("text").value.toString()
-                messageList.add(Chat(message, name))
-            }
-
-            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-            }
-
-            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(
-                    applicationContext, "Failed to load comments.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-        chatRef.child(key.toString()).child("member").addChildEventListener(childEventListener)
-    }
-
-    fun ChatAdd(key: String) {
-        val c = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDateTime.now()
-        } else {
-            TODO("VERSION.SDK_INT < O")
-        }
-        val dateformat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        } else {
-            TODO("VERSION.SDK_INT < O")
-        }
-        val datetime = c.format(dateformat)
-        /*val c = Calendar.getInstance()
-        val dateformat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-        val datetime = dateformat.format(c.time)*/
-        var message = editSend.text.toString()
-        val TimeRef = chatRef.child(key.toString()).child("member").child(datetime.toString())//시간을 id로 사용
-        userRef.child(uid).addListenerForSingleValueEvent(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var name :String
-                for(x in snapshot.children){
-                    if(x.key.equals("name")){
-                        name = x.value.toString()
-                        TimeRef.child("name").setValue(name)//닉네임
-                        messageList.clear()
-                        ChatUpdate(key.toString())
-                    }
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-        TimeRef.child("text").setValue(message)//메세지
-        Handler().postDelayed(Runnable {
-            run {
-                my_recycler_view.scrollToPosition(viewAdapter.itemCount-1)
-            }
-        },50)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.chatmenu,menu)
