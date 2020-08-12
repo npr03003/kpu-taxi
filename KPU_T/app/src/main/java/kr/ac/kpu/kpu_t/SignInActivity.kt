@@ -103,6 +103,7 @@ class SignInActivity : AppCompatActivity() {
                         postVal["name"] = "산기대"
                         postVal["chatkey"] = "null"
                         postVal["gender"] = gender
+                        postVal["images"] = "null"
                         myRef.child(id).setValue(postVal)
 
                     }

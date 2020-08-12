@@ -4,6 +4,7 @@
     package="kr.ac.kpu.kpu_t">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -13,11 +14,13 @@
         android:roundIcon="@mipmap/taxi"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".SetImage"></activity>
+        <activity android:name=".ChattingRoom" android:parentActivityName=".TaxiMain" />
+
         <activity android:name=".bbodyActivity"></activity>
-        <activity android:name=".ChattingRoom" android:parentActivityName=".TaxiMain"/>
         <activity android:name=".SetNickname" />
         <activity android:name=".GongG" />
-        <activity android:name=".ProfileChange" />
         <activity android:name=".carfull_Board_setting" />
         <activity android:name=".TaxiRoomSetting" />
         <activity android:name=".FindpwActivity" />
