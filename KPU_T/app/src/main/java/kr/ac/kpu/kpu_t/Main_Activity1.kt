@@ -103,12 +103,12 @@ class Main_Activity1 : AppCompatActivity() {
                         if (user != null) {
                             if (user.isEmailVerified) {
                                 //sharedpreference
+                                progressbar.visibility = View.GONE
                                 val sharedPref = getSharedPreferences("shared",Context.MODE_PRIVATE)
                                 with (sharedPref.edit()) {
                                     putString("email",email)
                                     commit()
                                 }
-                                progressbar.visibility = View.GONE
                                 startActivity<TaxiMain>("auto" to autoLogin.isChecked)
                             } else {
                                 Toast.makeText(this, "메일을 인증하여 주세요.", Toast.LENGTH_SHORT).show()

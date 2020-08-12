@@ -37,9 +37,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:gravity="start|top"
+        android:padding="8dp"
         android:text="이곳은 내용을 적는 텍스트뷰입니다 길어지건 말건 상관이 없다는게 핵심이죠"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +51,7 @@
     <EditText
         android:id="@+id/replyET"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -59,7 +60,7 @@
         android:ems="10"
         android:hint="댓글을 입력해주세요"
         android:inputType="textPersonName"
-        android:textSize="12sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/replysavebtn"
         app:layout_constraintHorizontal_bias="0.397"
@@ -84,9 +85,8 @@
         android:id="@+id/replyLV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:background="@drawable/edge"
         app:layout_constraintBottom_toTopOf="@+id/replysavebtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -98,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boardtitleTV" />
@@ -108,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/boardbodyTV"
@@ -127,6 +127,7 @@
         app:layout_constraintEnd_toStartOf="@+id/boarddeletebtn"
         app:layout_constraintTop_toBottomOf="@+id/boardbodyTV" />
 
+
     <Button
         android:id="@+id/boarddeletebtn"
         android:layout_width="wrap_content"
@@ -138,4 +139,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boardbodyTV" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
