@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -21,19 +22,28 @@ class Main_Activity1 : AppCompatActivity() {
     private val PASSWORD_PATTERN: Pattern = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$")
     private val RC_SIGN_IN = 9001
 
-    private fun saveData(auto: Boolean) {
+    private fun saveData(auto: Boolean, save: Boolean, id:String) {
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
         val editor = pref.edit()
 
+        editor.putString("KEY_ID",id).apply()
         editor.putBoolean("KEY_AUTO", auto)
+            .apply()
+        editor.putBoolean("KEY_SAVE", save)
             .apply()
     }
 
     private fun loadData() {
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
         val auto = pref.getBoolean("KEY_AUTO", false)
+        val save = pref.getBoolean("KEY_SAVE",false)
+        val id = pref.getString("KEY_ID","")
         if (auto) {
             autoLogin.isChecked = true
+        }
+        if(save){
+            saveid.isChecked=true
+            Edit_email.setText(id)
         }
     }
 
@@ -53,6 +63,7 @@ class Main_Activity1 : AppCompatActivity() {
             // No user is signed in
             btn_Login.setOnClickListener {
                 Login()
+                progressbar.visibility = View.VISIBLE
             }
             btn_Sign.setOnClickListener {
                 startActivity<SignInActivity>()
@@ -77,11 +88,12 @@ class Main_Activity1 : AppCompatActivity() {
         val email = Edit_email.text.toString()
         val password = Edit_PS.text.toString()
         val auto = autoLogin.isChecked
+        val save = saveid.isChecked
         if (email.length < 1 || password.length < 1) {
             val toast = Toast.makeText(this, "입력칸이 공란입니다.", Toast.LENGTH_SHORT)
             toast.show()
         } else {
-            saveData(auto)
+            saveData(auto,save,email)
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -90,13 +102,13 @@ class Main_Activity1 : AppCompatActivity() {
                         //updateUI(user)
                         if (user != null) {
                             if (user.isEmailVerified) {
-
                                 //sharedpreference
                                 val sharedPref = getSharedPreferences("shared",Context.MODE_PRIVATE)
                                 with (sharedPref.edit()) {
                                     putString("email",email)
                                     commit()
                                 }
+                                progressbar.visibility = View.GONE
                                 startActivity<TaxiMain>("auto" to autoLogin.isChecked)
                             } else {
                                 Toast.makeText(this, "메일을 인증하여 주세요.", Toast.LENGTH_SHORT).show()
