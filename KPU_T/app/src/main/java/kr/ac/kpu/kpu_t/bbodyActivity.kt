@@ -45,6 +45,7 @@ class bbodyActivity : AppCompatActivity() {
         if (id != null) {
             brdid = id
         }
+        val replyatd = replyadapter(this,replylist)
         val replychild = database.getReference("board/$brdid/reply")
         val childL = object : ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -54,10 +55,11 @@ class bbodyActivity : AppCompatActivity() {
                 val time = snapshot.child("time").value.toString()
                 val boardid = snapshot.child("boardid").value.toString()
                 replylist.add(reply(name,body, maker, time, boardid))
+                replyLV.adapter = replyatd
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                viewreply(brdid)
+
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
@@ -65,7 +67,16 @@ class bbodyActivity : AppCompatActivity() {
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-                viewreply(brdid)
+                if(replylist.size==1) {
+                    replylist.forEach {
+                        if (it.time == snapshot.child("time").value) {
+                            replylist.remove(it)
+                        }
+                    }
+                    replyLV.adapter = replyatd
+                } else {
+                    viewreply(brdid)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
