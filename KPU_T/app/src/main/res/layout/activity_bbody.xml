@@ -8,11 +8,12 @@
 
     <TextView
         android:id="@+id/boardtitleTV"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:gravity="center"
         android:text="서울에서 산기대로 가실 여자사람 급구합니다"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -33,11 +34,12 @@
 
     <TextView
         android:id="@+id/boardbodyTV"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="start|top"
         android:text="이곳은 내용을 적는 텍스트뷰입니다 길어지건 말건 상관이 없다는게 핵심이죠"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,19 +49,22 @@
 
     <EditText
         android:id="@+id/replyET"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="댓글을 입력해주세요"
+        android:inputType="textPersonName"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/replysavebtn"
-        app:layout_constraintHorizontal_bias="0.458"
+        app:layout_constraintHorizontal_bias="0.397"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boardupdatebtn" />
+        app:layout_constraintTop_toBottomOf="@+id/replyLV" />
 
     <Button
         android:id="@+id/replysavebtn"
@@ -67,22 +72,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round"
         android:text="댓글 저장"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boarddeletebtn" />
+        app:layout_constraintTop_toBottomOf="@+id/replyLV" />
 
     <ListView
         android:id="@+id/replyLV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/replysavebtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/replyET" />
+        app:layout_constraintTop_toBottomOf="@+id/boardupdatebtn" />
 
     <TextView
         android:id="@+id/bdstartTV"
@@ -112,6 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/round"
         android:text="게시글 수정"
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/boarddeletebtn"
@@ -122,7 +132,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round"
         android:text="게시글 삭제"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
