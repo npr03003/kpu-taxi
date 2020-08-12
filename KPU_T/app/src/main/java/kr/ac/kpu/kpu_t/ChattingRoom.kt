@@ -1,11 +1,16 @@
 package kr.ac.kpu.kpu_t
 
+
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -14,10 +19,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chatting_room.*
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class ChattingRoom : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -37,6 +40,10 @@ class ChattingRoom : AppCompatActivity() {
         actionBar?.run {
             setDisplayHomeAsUpEnabled(true)
         }
+        var intent = getIntent()
+        var key = intent.extras?.getString("key")
+        ChatBordSet(key.toString())
+        ChatUpdate(key.toString())
         userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var name :String
@@ -58,9 +65,7 @@ class ChattingRoom : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
-        var intent = getIntent()
-        var key = intent.extras?.getString("key")
-        ChatBordSet(key.toString())
+
         btnSend.setOnTouchListener { _: View, event: MotionEvent ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -74,11 +79,7 @@ class ChattingRoom : AppCompatActivity() {
             }
             true
         }
-        ChatUpdate(key.toString())
     }
-
-
-
     fun ChatBordSet(key: String){
         chatRef.addListenerForSingleValueEvent(object : ValueEventListener {
             //데이터 불러오는
@@ -208,7 +209,47 @@ class ChattingRoom : AppCompatActivity() {
             run {
                 my_recycler_view.scrollToPosition(viewAdapter.itemCount-1)
             }
-        },200)
+        },50)
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.chatmenu,menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.exitMenu -> {
+                var dialog = AlertDialog.Builder(this)
+                dialog!!.setMessage("채팅방을 나가시겠습니까?")
+                dialog.setPositiveButton("나가기", DialogInterface.OnClickListener{
+                        dialog, which ->
+                    var cintent = getIntent()
+                    var key = cintent.extras?.getString("key")
+                    userRef.child(uid).child("chatkey").setValue("null")
+                    chatRef.child(key.toString()).addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            var c: Int
+                            for (y in snapshot.children) {
+                                if (y.key.equals("count")) {
+                                    c = y.value.toString().toInt()
+                                    chatRef.child(key.toString()).child("count").setValue(c-1)
+                                }
+                            }
+                        }
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
+                    })
+                    val intent = Intent(this,TaxiMain::class.java)
+                    startActivity(intent)
+                })
+                dialog.setNegativeButton("취소", DialogInterface.OnClickListener{ dialog,
+                                                                                which-> null})
+                dialog.show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
 class Chat(var message : String, var Nick : String)

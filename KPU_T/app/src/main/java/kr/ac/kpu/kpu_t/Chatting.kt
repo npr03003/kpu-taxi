@@ -56,11 +56,8 @@ class Chatting : Fragment() {
                         startActivity(cintent)
                     }
                     else{
-                        /*alert("채팅방이 개설되었습니다."){
-                            yesButton { finish() }
-                        }.show()*/
                         var dialog = activity?.let{AlertDialog.Builder(it)}
-                        dialog!!.setMessage("채팅방에 입장하시겠습니까?")
+                        dialog!!.setMessage("채팅방에 입장하시겠습니까?" +"\n"+"(입장하면 다른 방을 만들 수 없습니다.)")
                         dialog.setPositiveButton("입장",DialogInterface.OnClickListener{
                             dialog, which ->
                             userRef.child(uid).child("chatkey").setValue(cKey)
