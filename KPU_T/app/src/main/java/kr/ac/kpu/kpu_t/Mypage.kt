@@ -8,6 +8,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -49,6 +50,7 @@ class Mypage : Fragment() {
 
     private var filePath: Uri?=null
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,6 +66,7 @@ class Mypage : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
 
     }
 

@@ -100,7 +100,7 @@ class SignInActivity : AppCompatActivity() {
                         val id = user.uid
 
                         val postVal : HashMap<String, Any> = HashMap()
-                        postVal["name"] = "산기대"
+                        postVal["name"] = "null"
                         postVal["chatkey"] = "null"
                         postVal["gender"] = gender
                         postVal["images"] = "null"

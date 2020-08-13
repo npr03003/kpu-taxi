@@ -47,7 +47,7 @@
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="사용할 수 없는 닉네임입니다."
+        android:text="닉네임이 중복되었습니다."
         android:visibility="gone"
         android:id="@+id/textview_result_cant"
         android:textColor="#ff0000"
