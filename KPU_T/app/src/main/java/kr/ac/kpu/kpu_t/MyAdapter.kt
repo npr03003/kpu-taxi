@@ -30,8 +30,8 @@ class MyAdapter(private val myDataset: ArrayList<Chat>,private val name: String)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.v.tvChat.text = myDataset[position].message
-        holder.v.tvChat_email.text=myDataset[position].Nick
+            holder.v.tvChat.text = myDataset[position].message
+            holder.v.tvChat_email.text= myDataset[position].Nick
     }
 
     // Return the size of your dataset (invoked by the layout manager)

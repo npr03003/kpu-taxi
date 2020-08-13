@@ -11,17 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_chatting.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.yesButton
 
 class Chatting : Fragment() {
     val database = FirebaseDatabase.getInstance()
@@ -48,11 +44,14 @@ class Chatting : Fragment() {
             userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     var chatkey :String
+                    var cName : String
                     chatkey=snapshot.child("chatkey").value as String
+                    cName = snapshot.child("name").value as String
                     if(chatkey==cKey)
                     {
                         val cintent = Intent(activity, ChattingRoom::class.java)
                         cintent.putExtra("key",cKey)
+                        cintent.putExtra("name",cName)
                         startActivity(cintent)
                     }
                     else{
@@ -64,6 +63,7 @@ class Chatting : Fragment() {
                             chatRef.child(cKey).child("count").setValue(cCount+1)
                             val cintent = Intent(activity, ChattingRoom::class.java)
                             cintent.putExtra("key", cKey)
+                            cintent.putExtra("name",cName)
                             startActivity(cintent)
                         })
                         dialog.setNegativeButton("취소",DialogInterface.OnClickListener{dialog,
@@ -160,6 +160,7 @@ class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>)
 
         val textTitle = view.findViewById<TextView>(R.id.text1)
         val textpath = view.findViewById<TextView>(R.id.text2)
+        val oneImg = view.findViewById<ImageView>(R.id.oneImg)
         val twoImg = view.findViewById<ImageView>(R.id.twoImg)
         val threeImg = view.findViewById<ImageView>(R.id.threeImg)
         val fourImg = view.findViewById<ImageView>(R.id.fourImg)
