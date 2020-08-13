@@ -21,6 +21,7 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chatting_room.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.system.exitProcess
 
 class ChattingRoom : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -211,8 +212,7 @@ class ChattingRoom : AppCompatActivity() {
                             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                         }
                     })
-                    val intent = Intent(this,TaxiMain::class.java)
-                    startActivity(intent)
+                    finish()
                 })
                 dialog.setNegativeButton("취소", DialogInterface.OnClickListener{ dialog,
                                                                                 which-> null})
@@ -221,6 +221,9 @@ class ChattingRoom : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    override fun onBackPressed() {
+        finish()
     }
 }
 class Chat(var message : String, var Nick : String)

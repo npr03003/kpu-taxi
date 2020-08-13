@@ -218,8 +218,6 @@ class Mypage : Fragment() {
             })
     }
 
-
-
     fun delete(){
         user!!.delete()
             .addOnCompleteListener { task ->
