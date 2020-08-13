@@ -29,7 +29,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mypage.*
-
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.yesButton
 
 
 /**
@@ -47,6 +48,7 @@ class Mypage : Fragment() {
     val uid = user!!.uid.toString()
     private var user2222:String=""
     private var stEmail:String=""
+    private var isgranted2:Int=0
 
     private var filePath: Uri?=null
 
@@ -79,37 +81,67 @@ class Mypage : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        var unknown:String="알수없음"
+        var unknown: String = "알수없음"
 
-        Ref.addListenerForSingleValueEvent(object : ValueEventListener {//데이터 불러오는
-        override fun onDataChange(snapshot: DataSnapshot)  {
+        Ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            //데이터 불러오는
+            override fun onDataChange(snapshot: DataSnapshot) {
 
-            Ref.child(uid).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for(x in snapshot.children) {
-                        if(x.key.equals("name")){
-                            var nickname333:String=x.value.toString()
-                            Nickname2.setText(nickname333)
-                            user2222=nickname333
-                            displayimage()
+                Ref.child(uid).addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for (x in snapshot.children) {
+                            if (x.key.equals("name")) {
+                                var nickname333: String = x.value.toString()
+                                Nickname2.setText(nickname333)
+                                user2222 = nickname333
+                                displayimage()
 
+                            }
                         }
                     }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-            })
-        }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+                })
+            }
+
             override fun onCancelled(error: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
 
-        btn_sync.setOnClickListener{
+        btn_sync.setOnClickListener {
+
+            Ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                //데이터 불러오는
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    Ref.child(uid).addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for (x in snapshot.children) {
+                                if (x.key.equals("name")) {
+                                    var nickname333: String = x.value.toString()
+                                    Nickname2.setText(nickname333)
+                                }
+
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
+                    })
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            })
             displayimage()
-            Toast.makeText(activity,"동기화 완료",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "동기화 완료", Toast.LENGTH_SHORT).show()
         }
 
         //로그아웃
@@ -150,22 +182,15 @@ class Mypage : Fragment() {
         }
 
         //이미지 넣기
-        btn_imageSetting.setOnClickListener{
+        btn_imageSetting.setOnClickListener {
             val intent = Intent(activity, SetImage::class.java)
             startActivity(intent)
-        }
-
-        //닉네임 설정 및 수정
-        btn_setnickname.setOnClickListener {
-            val intent = Intent(activity, SetNickname::class.java)
-            startActivity(intent)
-
-
         }
 
 
 
     }
+
 
     //2020.08.05일에 남준이가 수정함 건들지 마셈
     fun finish(){
