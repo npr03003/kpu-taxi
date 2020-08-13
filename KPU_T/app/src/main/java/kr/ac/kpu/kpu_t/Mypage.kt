@@ -277,10 +277,12 @@ class Mypage : Fragment() {
         val dlg = activity?.let { AlertDialog.Builder(it) }
         dlg!!.setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
         dlg.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
-            FirebaseAuth.getInstance().signOut()
             Toast.makeText(activity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-            finish()
 
+            FirebaseAuth.getInstance().signOut()
+
+            val intent = Intent(activity,LoginActivity::class.java)
+            startActivity(intent)
         })
         dlg.setNegativeButton("취소",
             DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
