@@ -32,21 +32,21 @@ class SetNickname : AppCompatActivity() {
 
         val user = FirebaseAuth.getInstance()
         val uid = user.uid.toString()
-        var nicknameset:String=""
         var Email:String=""
         val database = FirebaseDatabase.getInstance()
         val Ref = database.getReference("user")
         var isgranted:Int=1
+        var nickname = ""
+
 
         btn_checkoverlap.setOnClickListener{
             isgranted=1
-            var nickname:String=Edit_nickname.text.toString()
+            nickname=Edit_nickname.text.toString()
             Ref.addListenerForSingleValueEvent(object :ValueEventListener{//데이터 불러오는
             override fun onDataChange(snapshot: DataSnapshot)  {
                 var nickname2:String=""
                 var uuid:String=""
                 for(x in snapshot.children){
-
                     Ref.child(x.key.toString()).addListenerForSingleValueEvent(object :ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
                             uuid = x.key.toString()
@@ -95,7 +95,8 @@ class SetNickname : AppCompatActivity() {
                 Toast.makeText(applicationContext,"중복을 확인하여 주십시오.",Toast.LENGTH_SHORT).show()
             }
             else{
-                Ref.child(uid).child("name").setValue(nicknameset)
+                Ref.child(uid).child("name").setValue(nickname)
+                Ref.child(uid).child("nickset").setValue("complete")
                 alert("닉네임이 변경되었습니다."){
                     yesButton { finish() }
                 }.show()

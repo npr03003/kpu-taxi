@@ -157,8 +157,34 @@ class Mypage : Fragment() {
 
         //닉네임 설정 및 수정
         btn_setnickname.setOnClickListener {
-            val intent = Intent(activity, SetNickname::class.java)
-            startActivity(intent)
+            val database = FirebaseDatabase.getInstance()
+            val user = FirebaseAuth.getInstance().currentUser?.uid.toString()
+            val userRef = database.getReference("user")
+
+            userRef.child(user).child("nickset").addListenerForSingleValueEvent(object:ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val ischanged = snapshot.value.toString()
+                    if(ischanged=="complete"){
+                        val dlg3 = activity?.let { AlertDialog.Builder(it) }
+                        dlg3!!.setTitle("닉네임 설정").setMessage("닉네임이 이미 설정되었습니다.")
+                        dlg3.setPositiveButton(
+                            "확인",
+                            DialogInterface.OnClickListener { dialog, which ->
+                                dialog.dismiss()
+                            })
+                        dlg3.show()
+                    } else {
+                        val intent = Intent(activity, SetNickname::class.java)
+                        startActivity(intent)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
+
+
 
 
         }
