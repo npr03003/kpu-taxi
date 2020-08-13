@@ -121,7 +121,7 @@ class SignInActivity : AppCompatActivity() {
                     if (user != null) {
                         if(user.isEmailVerified){
                             Toast.makeText(this,"login success",Toast.LENGTH_SHORT).show()
-                            startActivity<TaxiMain>()
+                            startActivity<MainActivity>()
                         }
                         else{
                             Toast.makeText(this,"fail",Toast.LENGTH_SHORT).show()

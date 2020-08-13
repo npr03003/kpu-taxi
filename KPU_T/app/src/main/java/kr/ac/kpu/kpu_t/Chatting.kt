@@ -36,7 +36,7 @@ class Chatting : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val intent = Intent(activity, TaxiRoomSetting::class.java)
+        val intent = Intent(activity, ChatRoomsetting::class.java)
         plusFab.setOnClickListener { startActivity(intent) }
         listView.setOnItemClickListener { adapterView, view, i, l ->
             var cKey = chatList.get(i).key
@@ -101,7 +101,7 @@ class Chatting : Fragment() {
                 TODO("Not yet implemented")
             }
         })
-        val chatAdapter = context?.let { ChatRoomAdapter(it, chatList) }
+        val chatAdapter = context?.let { ChatlistAdapter(it, chatList) }
         chatRef.addListenerForSingleValueEvent(object :ValueEventListener{//데이터 불러오는
             override fun onDataChange(snapshot: DataSnapshot)  {
             chatList.clear()//arraylist 초기화
@@ -154,7 +154,7 @@ class Chatting : Fragment() {
 }
 class ChatRoom(var key : String, var title : String,var start : String,var end : String,var max : Int,var count : Int)
 
-class ChatRoomAdapter (val context: Context, val chatList : ArrayList<ChatRoom>) : BaseAdapter() {
+class ChatlistAdapter (val context: Context, val chatList : ArrayList<ChatRoom>) : BaseAdapter() {
     override fun getView(position: Int, p1: View?, p2: ViewGroup?): View {
         val view: View = LayoutInflater.from(context).inflate(R.layout.item_room,null)
 

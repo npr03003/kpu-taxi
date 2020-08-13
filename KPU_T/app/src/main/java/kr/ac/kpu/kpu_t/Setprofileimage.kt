@@ -23,8 +23,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import kotlinx.android.synthetic.main.activity_set_image.*
-import kotlinx.android.synthetic.main.fragment_mypage.*
+import kotlinx.android.synthetic.main.activity_set_profile_image.*
+
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
 import java.io.IOException
@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SetImage : AppCompatActivity() {
+class Setprofileimage : AppCompatActivity() {
 
     private  var mFirebaseStorage: FirebaseStorage=FirebaseStorage.getInstance()
     private val TAG = "SetImage"
@@ -58,7 +58,7 @@ class SetImage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_set_image)
+        setContentView(R.layout.activity_set_profile_image)
 
         val sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE)
         stEmail= sharedPref.getString("email","").toString()

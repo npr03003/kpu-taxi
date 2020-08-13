@@ -1,24 +1,23 @@
 package kr.ac.kpu.kpu_t
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_bbody.*
+import kotlinx.android.synthetic.main.activity_carfull_board_body.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
-import java.text.SimpleDateFormat
-import java.util.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
@@ -39,7 +38,7 @@ class bbodyActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bbody)
+        setContentView(R.layout.activity_carfull_board_body)
         val getid = intent
         val id = getid.extras?.getString("id")
         if (id != null) {
@@ -94,10 +93,21 @@ class bbodyActivity : AppCompatActivity() {
             savereply(brdid)
         }
         boarddeletebtn.setOnClickListener {
-            boardRef.child(brdid).removeValue()
+            val dlg3 = AlertDialog.Builder(this)
+            dlg3.setTitle("게시글을 삭제합니다").setMessage("삭제하시겠습니까?")
+            dlg3.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                alert("게시글이 삭제되었습니다.") {
+                    yesButton {
+                        boardRef.child(brdid).removeValue()
+                        finish() }
+                }.show()
+            })
+            dlg3.setNegativeButton("취소",
+                DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+            dlg3.show()
         }
         boardupdatebtn.setOnClickListener {
-            val intent = Intent(this,carfull_Board_setting::class.java)
+            val intent = Intent(this,CarfullBoardsetting::class.java)
             intent.putExtra("boardid",brdid)
             intent.putExtra("title",brdtitle)
             intent.putExtra("start",brdstart)

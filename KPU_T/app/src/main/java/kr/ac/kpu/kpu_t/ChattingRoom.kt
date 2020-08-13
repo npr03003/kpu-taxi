@@ -3,7 +3,6 @@ package kr.ac.kpu.kpu_t
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +12,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -21,11 +19,10 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chatting_room.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.system.exitProcess
 
 class ChattingRoom : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: MyAdapter
+    private lateinit var viewAdapter: ChatRoomAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     val database = FirebaseDatabase.getInstance()
     val chatRef = database.getReference("chat")
@@ -46,7 +43,7 @@ class ChattingRoom : AppCompatActivity() {
         var name = intent.extras?.getString("name")
         ChatBordSet(key.toString())
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(messageList,name.toString())
+        viewAdapter = ChatRoomAdapter(messageList,name.toString())
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
             setHasFixedSize(true)
             layoutManager = viewManager

@@ -6,9 +6,7 @@ package kr.ac.kpu.kpu_t
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -27,10 +25,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mypage.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.yesButton
 
 
 /**
@@ -38,7 +33,7 @@ import org.jetbrains.anko.yesButton
  */
 class Mypage : Fragment() {
     private val multiplePermissionsCode = 100
-    private val TAG : String? = MainActivity :: class.simpleName
+    private val TAG : String? = SplashActivity :: class.simpleName
     private  var mFirebaseStorage: FirebaseStorage=FirebaseStorage.getInstance()
     private var Userfilename:String=""
     private var isgetImage:Int=0 //0이면 이미지 없음, 1이면 이미지 있음
@@ -183,7 +178,7 @@ class Mypage : Fragment() {
 
         //이미지 넣기
         btn_imageSetting.setOnClickListener {
-            val intent = Intent(activity, SetImage::class.java)
+            val intent = Intent(activity, Setprofileimage::class.java)
             startActivity(intent)
         }
 

@@ -8,13 +8,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main_1.*
+import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
 import java.util.regex.Pattern
 import kotlin.system.exitProcess
 
 
-class Main_Activity1 : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     var TAG = "LoginActivity"
@@ -50,14 +50,14 @@ class Main_Activity1 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_1)
+        setContentView(R.layout.activity_login)
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
         loadData()
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null && autoLogin.isChecked) {
-            startActivity<TaxiMain>("auto" to autoLogin.isChecked)
+            startActivity<MainActivity>("auto" to autoLogin.isChecked)
         } else {
 
             // No user is signed in
@@ -109,7 +109,7 @@ class Main_Activity1 : AppCompatActivity() {
                                     putString("email",email)
                                     commit()
                                 }
-                                startActivity<TaxiMain>("auto" to autoLogin.isChecked)
+                                startActivity<MainActivity>("auto" to autoLogin.isChecked)
                             } else {
                                 Toast.makeText(this, "메일을 인증하여 주세요.", Toast.LENGTH_SHORT).show()
                             }

@@ -11,11 +11,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_taxi_room_setting.*
+import kotlinx.android.synthetic.main.activity_chat_room_setting.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
 
-class TaxiRoomSetting : AppCompatActivity() {
+class ChatRoomsetting : AppCompatActivity() {
     var list_of_start = arrayOf("정왕역","오이도역","한국산업기술대학 정문")
     var list_of_end = arrayOf("한국산업기술대학 정문","정왕역","오이도역")
     lateinit var strt : String
@@ -23,7 +23,7 @@ class TaxiRoomSetting : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_taxi_room_setting)
+        setContentView(R.layout.activity_chat_room_setting)
         setTitle("채팅방 내용 설정")
 
         spStart.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,list_of_start)

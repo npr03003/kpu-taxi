@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_carfull_board_setting.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
 
-class carfull_Board_setting : AppCompatActivity() {
+class CarfullBoardsetting : AppCompatActivity() {
 
     lateinit var start : String
     lateinit var end : String

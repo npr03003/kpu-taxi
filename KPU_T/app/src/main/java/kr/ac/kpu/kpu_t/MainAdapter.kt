@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class PagerAdapter(fm:FragmentManager): FragmentPagerAdapter(fm) {
+class MainAdapter(fm:FragmentManager): FragmentPagerAdapter(fm) {
 
 
     //2020.08.05 남준이가 수정함

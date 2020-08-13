@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.my_chat.view.*
 
-class MyAdapter(private val myDataset: ArrayList<Chat>,private val name: String) :
-    RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class ChatRoomAdapter(private val myDataset: ArrayList<Chat>, private val name: String) :
+    RecyclerView.Adapter<ChatRoomAdapter.MyViewHolder>() {
 
     class MyViewHolder(val v: View) : RecyclerView.ViewHolder(v)
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): MyAdapter.MyViewHolder {
+                                    viewType: Int): ChatRoomAdapter.MyViewHolder {
         // create a new view
         if(viewType==1){
             var v : View = LayoutInflater.from(parent.context)
