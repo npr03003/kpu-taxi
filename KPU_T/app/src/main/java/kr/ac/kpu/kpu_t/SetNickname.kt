@@ -32,11 +32,12 @@ class SetNickname : AppCompatActivity() {
 
         val user = FirebaseAuth.getInstance()
         val uid = user.uid.toString()
+        var nickname:String=""
         var Email:String=""
         val database = FirebaseDatabase.getInstance()
         val Ref = database.getReference("user")
         var isgranted:Int=1
-        var nickname = ""
+
 
 
         btn_checkoverlap.setOnClickListener{
@@ -86,20 +87,27 @@ class SetNickname : AppCompatActivity() {
             })
         }
 
-
-
-
         btn_finish_setnickname.setOnClickListener {
             if(isgranted==0){
-
                 Toast.makeText(applicationContext,"중복을 확인하여 주십시오.",Toast.LENGTH_SHORT).show()
             }
             else{
-                Ref.child(uid).child("name").setValue(nickname)
-                Ref.child(uid).child("nickset").setValue("complete")
-                alert("닉네임이 변경되었습니다."){
-                    yesButton { finish() }
-                }.show()
+                val dlg3 = AlertDialog.Builder(this)
+                dlg3!!.setTitle("닉네임 설정").setMessage("닉네임을 한번 바꾸면 다시 설정할 수 없습니다. 계속하시겠습니까?")
+                dlg3.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                    Ref.child(uid).child("name").setValue(nickname)
+                    Ref.child(uid).child("nickset").setValue("complete")
+
+                    alert("닉네임이 설정되었습니다."){
+                        yesButton { finish() }
+                    }.show()
+
+                })
+                dlg3.setNegativeButton("취소",
+                    DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+                dlg3.show()
+
+
             }
         }
 
